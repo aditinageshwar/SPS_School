@@ -2,7 +2,9 @@ import React from 'react';
 import Sidebar from '../../components/Sidebar';
 import Navbar from '../../components/Navbar';
 import { FiEdit3 } from 'react-icons/fi';
+import { Link } from "react-router-dom";
 
+<Link to="/teacher/assignments">Assignments</Link>
 const TeacherDashboard = () => {
   const stats = [
     { title: "Classes Today", value: "5", fill: "80%", color: "var(--primary)" },
