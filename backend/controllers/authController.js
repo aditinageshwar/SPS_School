@@ -29,7 +29,8 @@ exports.register = async (req, res) => {
       user: {
         id: user._id,
         name: user.name,
-        role: user.role
+        role: user.role,
+        email: user.email
       }
     });
   }
@@ -61,7 +62,8 @@ exports.login = async (req, res) => {
   res.json({
     token,
     role: user.role,
-    name: user.name
+    name: user.name,
+    email: user.email
   });
  } 
  catch (error) {

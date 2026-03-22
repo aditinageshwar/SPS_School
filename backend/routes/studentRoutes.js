@@ -3,7 +3,6 @@ const router = express.Router();
 
 const studentController = require("../controllers/studentController");
 
-router.post("/add", studentController.addStudent);
-router.get("/list", studentController.getStudents);
-
+router.get("/profile/:email", studentController.getStudent);
+router.post("/link-profile", studentController.linkStudentProfile);
 module.exports = router;
