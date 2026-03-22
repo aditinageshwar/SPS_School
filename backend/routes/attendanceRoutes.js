@@ -3,7 +3,7 @@ const router = express.Router();
 
 const attendanceController = require("../controllers/attendanceController");
 
-router.post("/mark", attendanceController.markAttendance);
-router.get("/student/:id", attendanceController.getAttendance);
-
+router.get("/list", attendanceController.getStudentsForAttendance);
+router.post("/bulkSubmit", attendanceController.submitBulkAttendance);
+router.get("/:email", attendanceController.getAttendance);
 module.exports = router;

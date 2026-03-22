@@ -49,7 +49,7 @@ const Sidebar = () => {
     'teacher': [
       { path: '/teacher', name: 'My Dashboard', icon: <FiHome /> },
       { path: '#my-classes', name: 'My Classes', icon: <FiUsers /> },
-      { path: '#attendance', name: 'Attendance Entry', icon: <FiCheckSquare /> },
+      { path: '/teacher/attendanceMark', name: 'Attendance Entry', icon: <FiCheckSquare /> },
       { path: '#materials', name: 'Study Materials', icon: <FiUploadCloud /> },
       { path: '#assignments', name: 'Assignments', icon: <FiEdit3 /> }
     ],
