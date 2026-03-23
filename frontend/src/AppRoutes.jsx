@@ -17,8 +17,9 @@ import TeacherDashboard from './pages/operations-admin/TeacherDashboard';
 import StudentDashboard from './pages/operations-admin/StudentDashboard';
 import StudentProfile from './pages/operations-admin/StudentProfile';
 import StudentAttendance from './pages/operations-admin/StudentAttendance';
-import LeaveApplication from './pages/operations-admin/LeaveApplication';
+import Application from './pages/operations-admin/Application';
 import TeacherAttendanceMark from './pages/operations-admin/TeacherAttendanceMark';
+import TeacherApplicationReview from './pages/operations-admin/TeacherApplicationReview';
 
 const AppRoutes = () => {
   return (
@@ -37,10 +38,11 @@ const AppRoutes = () => {
         <Route path="/operations-admin" element={<OperationsAdminDashboard />} />
         <Route path="/teacher" element={<TeacherDashboard />} />
         <Route path="/teacher/attendanceMark" element={<TeacherAttendanceMark />} />
+        <Route path="/teacher/application" element={<TeacherApplicationReview/>} />
         <Route path="/student" element={<StudentDashboard />} />
         <Route path="/student/profile" element={<StudentProfile />} />
         <Route path="/student/attendance" element={<StudentAttendance />} />
-        <Route path="/student/leave" element={<LeaveApplication />} />
+        <Route path="/student/application" element={<Application />} />
       </Routes>
     </Router>
   );
