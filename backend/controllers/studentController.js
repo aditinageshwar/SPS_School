@@ -59,3 +59,13 @@ exports.linkStudentProfile = async (req, res) => {
     res.status(500).json({ message: "Server Error", error: error.message });
   }
 };
+
+exports.getAllStudents = async (req, res) => {
+  try {
+    const students = await Student.find()
+      .populate("user", "name"); 
+    res.json(students);
+  } catch (err) {
+    res.status(500).send("Error fetching students");
+  }
+};

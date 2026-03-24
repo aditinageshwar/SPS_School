@@ -28,7 +28,8 @@ const Login = () => {
       const rolePaths = {
         admin: '/admin',
         teacher: '/teacher',
-        student: '/student'
+        student: '/student',
+        "finance-admin": '/finance-admin'
       };
 
       navigate(rolePaths[userRole] || '/dashboard');

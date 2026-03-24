@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const feeSchema = new mongoose.Schema({
   studentId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "Student",
     required: true
   },
   amount: {
@@ -12,8 +12,8 @@ const feeSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ["PENDING", "PAID"],
-    default: "PENDING"
+    enum: ["Pending", "Paid"],
+    default: "Pending"
   },
   dueDate: {
     type: Date,

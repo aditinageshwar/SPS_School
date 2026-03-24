@@ -6,28 +6,9 @@ const role = require("../middleware/roleMiddleware");
 
 const financeController = require("../controllers/financeController");
 
-// 🔥 Finance Admin → create fee
-router.post(
-  "/create-fee",
-  auth,
-  role("FINANCE_ADMIN", "SUPER_ADMIN"),
-  financeController.createFee
-);
-
-// 🔥 Student → view fees
-router.get(
-  "/my-fees",
-  auth,
-  role("STUDENT"),
-  financeController.getMyFees
-);
-
-// 🔥 Student → pay fee
-router.put(
-  "/pay/:id",
-  auth,
-  role("STUDENT"),
-  financeController.payFee
-);
+router.post("/create-fee", auth, role("finance-admin"), financeController.createFee);
+router.get("/all", auth, role("finance-admin"), financeController. getAllFees);
+router.get("/my-fees", auth, role("student"), financeController.getMyFees);
+router.post("/pay/:feeId", auth, role("student"), financeController.payFee);
 
 module.exports = router;

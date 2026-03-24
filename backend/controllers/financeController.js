@@ -1,10 +1,10 @@
 const Fee = require("../models/Fee");
+const User = require("../models/User");
+const Student = require("../models/Student");
 
-// 🔥 Finance Admin → create fee
 exports.createFee = async (req, res) => {
   try {
     const { studentId, amount, dueDate } = req.body;
-
     const fee = new Fee({
       studentId,
       amount,
@@ -12,30 +12,53 @@ exports.createFee = async (req, res) => {
     });
 
     await fee.save();
-
     res.status(201).json({ message: "Fee created", fee });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-// 🔥 Student → view own fees
+exports.getAllFees = async (req, res) => {
+  try {
+    const fees = await Fee.find()
+      .populate({
+        path: "studentId", 
+        select: "rollNumber", 
+        populate: {
+          path: "user", 
+          select: "name"
+        }
+      });
+    res.json(fees);
+  } 
+  catch (err) {
+    console.error("Error fetching fees:", err);
+    res.status(500).json({ message: "Server Error", error: err.message });
+  }
+};
+
 exports.getMyFees = async (req, res) => {
   try {
-    const fees = await Fee.find({ studentId: req.user.id });
+    const { email } = req.query;
+    const user = await User.findOne({ email: email });
+    if (!user) return res.status(404).json({ message: "User not found" });
+    
+    const student = await Student.findOne({ user: user._id });
+    if (!student) return res.status(404).json({ message: "Student profile record not found" });
+
+    const fees = await Fee.find({ studentId: student._id });
     res.json(fees);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-// 🔥 Student → pay fee
 exports.payFee = async (req, res) => {
   try {
-    const fee = await Fee.findByIdAndUpdate(
-      req.params.id,
+    const { feeId } = req.params;
+    const fee = await Fee.findByIdAndUpdate(feeId,
       {
-        status: "PAID",
+        status: "Paid",
         paymentDate: new Date()
       },
       { new: true }
