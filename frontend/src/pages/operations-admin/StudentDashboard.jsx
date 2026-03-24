@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Sidebar from '../../components/Sidebar';
 import Navbar from '../../components/Navbar';
 import { FiUploadCloud, FiAlertCircle } from 'react-icons/fi';
 import API from '../../api/axios';
 
 const StudentDashboard = () => {
+  const navigate = useNavigate();
   const [studentData, setStudentData] = useState(null);
   const [assignments, setAssignments] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -59,7 +61,8 @@ const StudentDashboard = () => {
               <h1 className="text-2xl font-bold text-slate-800">Student Dashboard</h1>
               <p className="text-slate-500 text-sm">Welcome back! Here is your academic progress.</p>
             </div>
-            <button className="flex items-center gap-2 bg-blue-600 text-white px-5 py-2.5 rounded-xl font-bold shadow-lg hover:bg-blue-700 transition-all">
+            <button onClick={() => navigate('/student/assignments')} 
+              className="flex items-center gap-2 bg-blue-600 text-white px-5 py-2.5 rounded-xl font-bold shadow-lg hover:bg-blue-700 transition-all">
               <FiUploadCloud /> Submit Assignment
             </button>
           </div>

@@ -13,11 +13,6 @@ const TeacherDashboard = () => {
     { title: "Pending Applications", value: "3", fill: "15%", color: "var(--danger)" }
   ];
 
-  const applications = [
-    { student: "Amit Kumar", type: "Sick Leave", date: "14 March 2026", status: "Review Needed" },
-    { student: "Neha Sharma", type: "Late Submission", date: "12 March 2026", status: "Approved" }
-  ];
-
   return (
     <div className="app-layout">
       <Sidebar />
@@ -40,27 +35,10 @@ const TeacherDashboard = () => {
               </div>
             ))}
           </div>
-
-          <div className="table-container">
-            <h3>Student Leave & Applications</h3>
-            <table className="data-table">
-              <thead>
-                <tr><th>Student Name</th><th>Application Type</th><th>Date</th><th>Status</th><th>Actions</th></tr>
-              </thead>
-              <tbody>
-                {applications.map((app, i) => (
-                  <tr key={i}>
-                    <td>{app.student}</td><td>{app.type}</td><td>{app.date}</td>
-                    <td><span className={app.status === 'Approved' ? 'badge approved' : 'badge review'}>{app.status}</span></td>
-                    <td><button className="action-btn">Review</button></td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
         </div>
       </main>
     </div>
   );
 };
+
 export default TeacherDashboard;

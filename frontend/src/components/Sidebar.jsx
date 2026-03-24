@@ -49,16 +49,17 @@ const Sidebar = () => {
     'teacher': [
       { path: '/teacher', name: 'My Dashboard', icon: <FiHome /> },
       { path: '/teacher/myclasses', name: 'My Classes', icon: <FiUsers /> },
-      { path: '#attendance', name: 'Attendance Entry', icon: <FiCheckSquare /> },
+      { path: '/teacher/attendanceMark', name: 'Attendance Entry', icon: <FiCheckSquare /> },
       { path: '#materials', name: 'Study Materials', icon: <FiUploadCloud /> },
-      { path: '/teacher/assignments', name: 'Assignments', icon: <FiEdit3 /> }
+      { path: '/teacher/assignments', name: 'Assignments', icon: <FiEdit3 /> },
+      { path: '/teacher/application', name: 'Review Applications', icon: <FiFileText /> },
     ],
     'student': [
       { path: '/student', name: 'My Dashboard', icon: <FiHome /> },
       { path: '/student/profile', name: 'My Profile', icon: <FiUsers /> },
       { path: '/student/attendance', name: 'Attendance', icon: <FiCheckSquare /> },
       { path: '/student/report-cards', name: 'Report Cards', icon: <FiAward /> },
-      { path: '/student/leave', name: 'Leave Application', icon: <FiMail /> }
+      { path: '/student/application', name: 'Application', icon: <FiMail /> }
     ]
   };
   const currentMenu = sidebarMenus[userRole] || [];

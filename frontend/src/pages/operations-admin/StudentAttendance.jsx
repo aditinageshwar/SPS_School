@@ -1,15 +1,29 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Sidebar from '../../components/Sidebar';
 import Navbar from '../../components/Navbar';
-import { FiCheckCircle, FiXCircle, FiClock } from 'react-icons/fi';
+import { FiCheckCircle, FiXCircle, FiLoader } from 'react-icons/fi';
+import API from '../../api/axios';
 
 const StudentAttendance = () => {
-  const records = [
-    { date: "2026-03-20", day: "Friday", status: "Present" },
-    { date: "2026-03-19", day: "Thursday", status: "Present" },
-    { date: "2026-03-18", day: "Wednesday", status: "Absent" },
-    { date: "2026-03-17", day: "Tuesday", status: "Present" },
-  ];
+ const [attendanceData, setAttendanceData] = useState({ records: [], percentage: 0 });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchAttendance = async () => {
+      try {
+        const email = localStorage.getItem('userEmail');
+        const response = await API.get(`/api/attendance/${email}`);
+        setAttendanceData(response.data);
+      } catch (err) {
+        console.error("Error fetching attendance", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchAttendance();
+  }, []);
+
+  if (loading) return <div className="p-8 text-center"><FiLoader className="animate-spin mx-auto" size={32} /></div>;
 
   return (
     <div className="app-layout">
@@ -21,7 +35,9 @@ const StudentAttendance = () => {
             <h1 className="text-2xl font-bold">Attendance Record</h1>
             <div className="bg-white px-4 py-2 rounded-xl shadow-sm border border-slate-100">
               <span className="text-slate-500 text-sm">Overall: </span>
-              <span className="text-green-600 font-black">92%</span>
+              <span className={`font-black ${attendanceData.percentage >= 75 ? 'text-green-600' : 'text-red-500'}`}>
+                {attendanceData.percentage}%
+              </span>
             </div>
           </div>
 
@@ -35,17 +51,28 @@ const StudentAttendance = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {records.map((row, i) => (
-                  <tr key={i} className="hover:bg-slate-50 transition-colors">
-                    <td className="px-6 py-4 font-medium">{row.date}</td>
-                    <td className="px-6 py-4 text-slate-500">{row.day}</td>
-                    <td className="px-6 py-4">
-                      <span className={`flex items-center gap-2 font-bold ${row.status === 'Present' ? 'text-green-600' : 'text-red-500'}`}>
-                        {row.status === 'Present' ? <FiCheckCircle /> : <FiXCircle />} {row.status}
-                      </span>
-                    </td>
+                {attendanceData.records.length > 0 ? (
+                  attendanceData.records.map((row, i) => {
+                    const dateObj = new Date(row.date);
+                    return (
+                      <tr key={i} className="hover:bg-slate-50 transition-colors">
+                        <td className="px-6 py-4 font-medium">{dateObj.toLocaleDateString()}</td>
+                        <td className="px-6 py-4 text-slate-500">
+                          {dateObj.toLocaleDateString('en-US', { weekday: 'long' })}
+                        </td>
+                        <td className="px-6 py-4">
+                          <span className={`flex items-center gap-2 font-bold ${row.status === 'Present' ? 'text-green-600' : 'text-red-500'}`}>
+                            {row.status === 'Present' ? <FiCheckCircle /> : <FiXCircle />} {row.status}
+                          </span>
+                        </td>
+                      </tr>
+                    );
+                  })
+                ) : (
+                  <tr>
+                    <td colSpan="3" className="px-6 py-10 text-center text-slate-400">No attendance records found.</td>
                   </tr>
-                ))}
+                )}
               </tbody>
             </table>
           </div>
@@ -54,4 +81,5 @@ const StudentAttendance = () => {
     </div>
   );
 };
+
 export default StudentAttendance;
