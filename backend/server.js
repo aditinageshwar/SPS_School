@@ -5,7 +5,7 @@ const connectDB = require("./config/db");
 
 dotenv.config();
 const app = express();
-
+console.log("✅ Event routes loaded...");
 app.use(cors({
   origin: "http://localhost:3000", 
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
@@ -28,6 +28,7 @@ app.use("/api/attendance", require("./routes/attendanceRoutes"));
 app.use("/api/assignment", require("./routes/assignmentRoutes"));
 app.use("/api/application", require("./routes/applicationRoutes"));
 app.use("/api/finance", require("./routes/financeRoutes"));
+app.use("/api/events", require("./routes/eventRoutes"));
 
 const PORT = process.env.PORT || 5000;
 app.listen(process.env.PORT, () => {

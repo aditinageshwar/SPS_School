@@ -30,6 +30,7 @@ const userSchema = new mongoose.Schema({
       message: '{VALUE} is not a supported role' // Better error message for your console
     }
   },
+ 
   createdAt: {
     type: Date,
     default: Date.now
@@ -37,3 +38,5 @@ const userSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model("User", userSchema);
+
+

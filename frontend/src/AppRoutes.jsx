@@ -23,7 +23,7 @@ import TeacherAttendanceMark from './pages/operations-admin/TeacherAttendanceMar
 import TeacherApplicationReview from './pages/operations-admin/TeacherApplicationReview';
 import TeacherAssignments from "./pages/operations-admin/TeacherAssignments";
 import TeacherMyClasses from "./pages/operations-admin/TeacherMyClasses";
-
+import Events from "./pages/operations-admin/Events";
 const AppRoutes = () => {
   return (
     <Router>
@@ -51,6 +51,7 @@ const AppRoutes = () => {
         <Route path="/student/attendance" element={<StudentAttendance />} />
         <Route path="/student/application" element={<Application />} />
         <Route path="/student/assignments" element={<StudentAssignments />} />
+        <Route path="/operations-admin/events" element={<Events />} />
       </Routes>
     </Router>
   );
