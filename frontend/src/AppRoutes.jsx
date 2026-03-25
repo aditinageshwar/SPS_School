@@ -39,11 +39,13 @@ const AppRoutes = () => {
         <Route path="/student-admin" element={<StudentAdminDashboard />} />
         <Route path="/finance-admin" element={<FinanceAdminDashboard />} />
         <Route path="/operations-admin" element={<OperationsAdminDashboard />} />
+
         <Route path="/teacher" element={<TeacherDashboard />} />
         <Route path="/teacher/attendanceMark" element={<TeacherAttendanceMark />} />
         <Route path="/teacher/application" element={<TeacherApplicationReview/>} />
         <Route path="/teacher/assignments" element={<TeacherAssignments />} />
         <Route path="/teacher/myclasses" element={<TeacherMyClasses />} />
+        
         <Route path="/student" element={<StudentDashboard />} />
         <Route path="/student/profile" element={<StudentProfile />} />
         <Route path="/student/attendance" element={<StudentAttendance />} />

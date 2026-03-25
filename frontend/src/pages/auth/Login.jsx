@@ -29,7 +29,11 @@ const Login = () => {
         admin: '/admin',
         teacher: '/teacher',
         student: '/student',
-        "finance-admin": '/finance-admin'
+        "finance-admin": '/finance-admin',
+        "super-admin": '/super-admin',
+        "academic-admin": '/academic-admin',
+        "student-admin": '/student-admin',
+        "operations-admin": '/operations-admin'
       };
 
       navigate(rolePaths[userRole] || '/dashboard');

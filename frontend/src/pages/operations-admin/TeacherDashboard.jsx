@@ -22,7 +22,6 @@ const TeacherDashboard = () => {
               <h1>Teacher Portal</h1>
               <p style={{color: 'var(--text-muted)'}}>Manage attendance, notes, and assignments.</p>
             </div>
-            <button className="btn-primary"><FiEdit3 /> Create Assignment</button>
           </div>
 
           <div className="cards-grid">
