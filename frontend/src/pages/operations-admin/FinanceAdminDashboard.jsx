@@ -3,6 +3,8 @@ import Sidebar from '../../components/Sidebar';
 import Navbar from '../../components/Navbar';
 import { FiDollarSign, FiX } from 'react-icons/fi';
 import API from "../../api/axios";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 const FinanceAdminDashboard = () => {
   const [transactions, setTransactions] = useState([]);
@@ -62,6 +64,64 @@ const FinanceAdminDashboard = () => {
       alert("Error creating fee: " + err.response?.data?.message || err.message);
     }
   };
+
+  //--Generate Invoice-----
+  const generateInvoice = (tx) => {
+  const doc = new jsPDF();
+
+  // 1. Branding & Header
+  doc.setFontSize(20);
+  doc.setTextColor(37, 99, 235); // Blue-600
+  doc.text("SPS School - FEE RECEIPT", 105, 20, { align: "center" });
+
+  doc.setFontSize(10);
+  doc.setTextColor(100);
+  doc.text("Sagar Public School, Bhopal", 105, 27, { align: "center" });
+  doc.line(14, 32, 196, 32); // Horizontal line
+
+  // 2. Invoice Metadata
+  doc.setFontSize(12);
+  doc.setTextColor(0);
+  doc.text(`Receipt No: # ${tx._id.slice(-8).toUpperCase()}`, 14, 45);
+  doc.text(`Date: ${new Date().toLocaleDateString()}`, 14, 52);
+  doc.text(`Status: ${tx.status.toUpperCase()}`, 150, 45);
+
+  // 3. Student Details Box
+  doc.setFillColor(245, 245, 245);
+  doc.rect(14, 60, 182, 30, 'F');
+  doc.setFont(undefined, 'bold');
+  doc.text("STUDENT DETAILS:", 20, 68);
+  doc.setFont(undefined, 'normal');
+  doc.text(`Name: ${tx.studentId?.user?.name || "N/A"}`, 20, 75);
+  doc.text(`Roll Number: ${tx.studentId?.rollNumber || "N/A"}`, 20, 82);
+  doc.text(`Payment Mode: Online`, 145, 75);
+
+  // 4. Table of Charges
+  autoTable(doc, {
+    startY: 100,
+    head: [['Description', 'Amount (INR)']],
+    body: [
+      ['Tuition / Semester Fees', `Rs. ${tx.amount}`],
+      ['Service Charges', 'Rs. 0.00'],
+    ],
+    foot: [['TOTAL PAID', `Rs. ${tx.amount}`]],
+    theme: 'striped',
+    headStyles: { fillColor: [37, 99, 235] }, 
+    styles: { font: "helvetica", fontSize: 10 },
+  });
+
+  // 5. Footer / Signature
+  const finalY = doc.lastAutoTable.finalY + 30;
+  doc.text("__________________________", 140, finalY);
+  doc.text("Authorized Signatory", 145, finalY + 7);
+  
+  doc.setFontSize(9);
+  doc.setTextColor(150);
+  doc.text("This is a computer-generated receipt and does not require a physical stamp.", 105, 285, { align: "center" });
+
+  // 6. Save PDF
+  doc.save(`Receipt_${tx.studentId?.rollNumber}_${tx._id.slice(-4)}.pdf`);
+};
 
   // --- Dynamic Stats Calculation ---
   const calculateStats = () => {
@@ -167,7 +227,8 @@ const FinanceAdminDashboard = () => {
                     <td>{tx.amount} ₹</td>
                     <td><span className={tx.status === 'Paid' ? 'badge approved' : 'badge pending'}>{tx.status}</span></td>
                     <th>{tx.paymentDate}</th>
-                    <td><button className="action-btn">Generate Invoice</button></td>
+                    <td><button className="action-btn" onClick={() => generateInvoice(tx)}
+                      disabled={tx.status !== 'Paid'} style={{ opacity: tx.status !== 'Paid' ? 0.5 : 1 }}>Generate Invoice</button></td>
                   </tr>
                 ))}
               </tbody>

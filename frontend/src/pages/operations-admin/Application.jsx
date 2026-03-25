@@ -52,13 +52,14 @@ const Application = () => {
             
             {/* Application Type Selection */}
             <div className="space-y-2">
-              <label className="text-xs font-bold text-slate-500 uppercase ml-1">Application Type</label>
+              {/* <label className="text-xs font-bold text-slate-500 uppercase ml-1">Application Type</label> */}
               <select 
                 name="type"
                 value={formData.type}
                 onChange={handleChange}
                 className="w-full p-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 ring-blue-500 outline-none appearance-none cursor-pointer"
               >
+                <option value="">Choose Application Type</option>
                 <option value="Leave">Leave Application</option>
                 <option value="Bonafide">Bonafide Certificate</option>
                 <option value="Fee Extension">Fee Extension Request</option>
