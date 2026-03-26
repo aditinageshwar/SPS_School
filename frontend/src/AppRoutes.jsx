@@ -23,6 +23,7 @@ import TeacherAttendanceMark from './pages/operations-admin/TeacherAttendanceMar
 import TeacherApplicationReview from './pages/operations-admin/TeacherApplicationReview';
 import TeacherAssignments from "./pages/operations-admin/TeacherAssignments";
 import TeacherMyClasses from "./pages/operations-admin/TeacherMyClasses";
+import Events from "./pages/operations-admin/Events";
 
 const AppRoutes = () => {
   return (

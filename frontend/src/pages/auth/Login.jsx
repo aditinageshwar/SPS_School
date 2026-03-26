@@ -70,15 +70,6 @@ const Login = () => {
             <input id="password" type="password" className="form-control" placeholder="••••••••" value={credentials.password} onChange={handleChange} required />
           </div>
           
-          {/* <div className="form-group">
-            <label htmlFor="role">Login As (Role)</label>
-            <select id="role" className="form-control" value={role} onChange={(e) => setRole(e.target.value)}>
-              <option value="/admin">Admin</option>
-              <option value="/teacher">Teacher</option>
-              <option value="/student">Student</option>
-            </select>
-          </div> */}
-          
           <button type="submit" className="login-btn" disabled={loading}>
             {loading ? "Verifying..." : "Secure Login"}
           </button>
