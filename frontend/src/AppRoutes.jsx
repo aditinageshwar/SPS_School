@@ -24,6 +24,9 @@ import TeacherApplicationReview from './pages/operations-admin/TeacherApplicatio
 import TeacherAssignments from "./pages/operations-admin/TeacherAssignments";
 import TeacherMyClasses from "./pages/operations-admin/TeacherMyClasses";
 import Events from "./pages/operations-admin/Events";
+
+
+
 const AppRoutes = () => {
   return (
     <Router>
@@ -39,6 +42,8 @@ const AppRoutes = () => {
         <Route path="/student-admin" element={<StudentAdminDashboard />} />
         <Route path="/finance-admin" element={<FinanceAdminDashboard />} />
         <Route path="/operations-admin" element={<OperationsAdminDashboard />} />
+        <Route path="/admin-dashboard" element={<SuperAdminDashboard />} />
+        <Route path="/operation-admin" element={<OperationsAdminDashboard />} />
 
         <Route path="/teacher" element={<TeacherDashboard />} />
         <Route path="/teacher/attendanceMark" element={<TeacherAttendanceMark />} />

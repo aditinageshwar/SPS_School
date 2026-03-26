@@ -1,81 +1,81 @@
+
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import Sidebar from '../../components/Sidebar';
 import Navbar from '../../components/Navbar';
-import EventCalendar from '../../components/EventCalendar';
-import { FiPlus } from 'react-icons/fi';
-
 
 const SuperAdminDashboard = () => {
-  const stats = [
-    { title: "Total Department Admins", value: "8", fill: "80%", color: "var(--primary)" },
-    { title: "Active Sessions", value: "1,204", fill: "60%", color: "var(--success)" },
-    { title: "System Alerts", value: "2", fill: "10%", color: "var(--danger)" },
-    { title: "Database Load", value: "45%", fill: "45%", color: "var(--warning)" }
-  ];
+  const navigate = useNavigate();
 
-  const admins = [
-    { name: "Rajesh Kumar", role: "Operations Admin", status: "Active" },
-    { name: "Anita Sharma", role: "Academic Admin", status: "Active" },
-    { name: "Vikram Singh", role: "Finance Admin", status: "Active" }
+  const modules = [
+    {
+      title: "Manage Teachers",
+      desc: "Add / Delete Teachers",
+      path: "/teachers"
+    },
+    {
+      title: "Manage Students",
+      desc: "Add / Delete Students",
+      path: "/students"
+    },
+    {
+      title: "Manage Fees",
+      desc: "Create / Update Fees",
+      path: "/finance"
+    },
+    {
+      title: "Manage Events",
+      desc: "Create / Update Events",
+      path: "/operations-admin"
+    }
   ];
 
   return (
     <div className="app-layout">
       <Sidebar />
+
       <main className="main-content">
         <Navbar />
+
         <div className="dashboard-container">
-          
+
           {/* Header */}
           <div className="dashboard-header">
             <div>
               <h1>Super Admin Control Panel</h1>
-              <p style={{color: 'var(--text-muted)'}}>Manage departments and system overview.</p>
+              <p style={{ color: 'var(--text-muted)' }}>
+                Manage all system modules easily.
+              </p>
             </div>
-            <button className="btn-primary"><FiPlus style={{ marginRight: '5px' }}/> Create Admin</button>
           </div>
 
-          {/* Stats Cards */}
+          {/* 🔥 MODULE CARDS */}
           <div className="cards-grid">
-            {stats.map((stat, i) => (
-              <div className="stat-card" key={i}>
-                <span className="stat-title">{stat.title}</span>
-                <span className="stat-value">{stat.value}</span>
+            {modules.map((item, i) => (
+              <div
+                className="stat-card"
+                key={i}
+                onClick={() => navigate(item.path)}
+                style={{ cursor: "pointer" }}
+              >
+                <span className="stat-title">{item.title}</span>
+                <span className="stat-value">→</span>
+
                 <div className="stat-indicator">
-                  <div className="indicator-fill" style={{ width: stat.fill, backgroundColor: stat.color }}></div>
+                  <div
+                    className="indicator-fill"
+                    style={{
+                      width: "100%",
+                      backgroundColor: "var(--primary)"
+                    }}
+                  ></div>
                 </div>
+
+                <p style={{ marginTop: "10px", color: "gray" }}>
+                  {item.desc}
+                </p>
               </div>
             ))}
-          </div>
-
-          {/* Data Table */}
-          <div className="table-container">
-            <h3>Department Admins</h3>
-            <table className="data-table">
-              <thead>
-                <tr>
-                  <th>Name</th><th>Role</th><th>Status</th><th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {admins.map((admin, i) => (
-                  <tr key={i}>
-                    <td>{admin.name}</td>
-                    <td>{admin.role}</td>
-                    <td><span className="badge approved">{admin.status}</span></td>
-                    <td>
-                      <button className="action-btn">Edit</button>
-                      <button className="action-btn delete">Revoke</button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          {/* Calendar Bottom Section */}
-          <div className="bottom-grid">
-            <EventCalendar />
           </div>
 
         </div>
