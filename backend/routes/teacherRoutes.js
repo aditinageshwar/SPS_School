@@ -19,5 +19,14 @@ router.post("/assignment", auth, role("TEACHER"), async (req, res) => {
   res.json(assignment);
 
 });
+const teacherController = require("../controllers/teacherController");
+
+// ✅ SUPER_ADMIN → create teacher
+router.post(
+  "/create-teacher",
+  auth,
+  role("super-admin"),
+  teacherController.createTeacher
+);
 
 module.exports = router;

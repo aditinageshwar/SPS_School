@@ -69,3 +69,23 @@ exports.getAllStudents = async (req, res) => {
     res.status(500).send("Error fetching students");
   }
 };
+exports.deleteStudent = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Student profile delete
+    const student = await Student.findByIdAndDelete(id);
+
+    if (!student) {
+      return res.status(404).json({ message: "Student not found" });
+    }
+
+    // Optional: User bhi delete karna
+    await User.findByIdAndDelete(student.user);
+
+    res.json({ message: "Student deleted successfully" });
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

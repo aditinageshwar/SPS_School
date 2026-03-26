@@ -69,3 +69,42 @@ exports.payFee = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+exports.updateFee = async (req, res) => {
+  try {
+    const { feeId } = req.params;
+
+    const updatedFee = await Fee.findByIdAndUpdate(
+      feeId,
+      req.body,
+      { new: true }
+    );
+
+    if (!updatedFee) {
+      return res.status(404).json({ message: "Fee not found" });
+    }
+
+    res.json({
+      message: "Fee updated successfully",
+      fee: updatedFee
+    });
+
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+exports.deleteFee = async (req, res) => {
+  try {
+    const { feeId } = req.params;
+
+    const fee = await Fee.findByIdAndDelete(feeId);
+
+    if (!fee) {
+      return res.status(404).json({ message: "Fee not found" });
+    }
+
+    res.json({ message: "Fee deleted successfully" });
+
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
