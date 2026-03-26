@@ -5,6 +5,9 @@ import { FiDollarSign, FiX } from 'react-icons/fi';
 import API from "../../api/axios";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import { useLocation } from "react-router-dom";
+
+
 
 const FinanceAdminDashboard = () => {
   const [transactions, setTransactions] = useState([]);
@@ -18,8 +21,10 @@ const FinanceAdminDashboard = () => {
 
   useEffect(() => {
     const fetchStudents = async () => {
+      // const res = await API.get('/api/student/all-students');
+      // setStudents(res.data);
       const res = await API.get('/api/student/all-students');
-      setStudents(res.data);
+setStudents(res.data || []);
     };
     fetchStudents();
   }, []);
@@ -290,13 +295,14 @@ const FinanceAdminDashboard = () => {
                 <label className="block text-xs font-semibold text-gray-500 uppercase">Student Roll No.</label>
                 <select 
                   required
-                  disabled={filteredStudents.length === 0}
+                  // disabled={filteredStudents.length === 0}
+                  disabled={students.length === 0}
                   className={`w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 ${filteredStudents.length === 0 ? 'bg-gray-100 cursor-not-allowed' : 'bg-white'}`}
                   onChange={(e) => setFormData({...formData, studentId: e.target.value})}
                   value={formData.studentId}
                 >
                   <option value="">RollNo...</option>
-                  {filteredStudents.map(s => (
+                  {(filteredStudents.length > 0 ? filteredStudents : students).map(s =>  (
                     <option key={s._id} value={s._id}>
                       {s.rollNumber} 
                     </option>

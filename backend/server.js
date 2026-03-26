@@ -76,8 +76,7 @@ app.use("/api/events", require("./routes/eventRoutes"));
 // 🔥 SUPER ADMIN DASHBOARD (NEW)
 app.use("/api/admin", require("./routes/adminRoutes"));
 
-// ❌ REMOVE THIS (if not used)
-// app.use("/api/super-admin", require("./routes/superAdminRoutes"));
+app.use("/api/super-admin", require("./routes/superAdminRoutes"));
 
 // ✅ SERVER START
 const PORT = process.env.PORT || 5000;

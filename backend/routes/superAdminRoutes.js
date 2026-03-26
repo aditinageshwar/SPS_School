@@ -4,33 +4,24 @@ const router = express.Router();
 const auth = require("../middleware/authMiddleware");
 const role = require("../middleware/roleMiddleware");
 
-const {
-  createAdmin,
-  getAdmins,
-  deleteAdmin
-} = require("../controllers/superAdminController");
+const controller = require("../controllers/superAdminController");
 
-// 🔥 ONLY SUPER ADMIN
+// 🔥 SUPER ADMIN ONLY
+router.post("/create-teacher", auth, role("SUPER_ADMIN"), controller.createTeacher);
+router.delete("/delete-teacher/:id", auth, role("SUPER_ADMIN"), controller.deleteTeacher);
 
-router.post(
-  "/create-admin",
-  auth,
-  role("super-admin"),
-  createAdmin
-);
-
+router.post("/create-student", auth, role("SUPER_ADMIN"), controller.createStudent);
 router.get(
-  "/admins",
+  "/teachers",
   auth,
   role("super-admin"),
-  getAdmins
+  controller.getTeachers
 );
-
 router.delete(
-  "/admin/:id",
+  "/delete-student/:id",
   auth,
   role("super-admin"),
-  deleteAdmin
+  controller.deleteStudent
 );
-
+router.get("/students", auth, role("super-admin"), controller.getStudents);
 module.exports = router;

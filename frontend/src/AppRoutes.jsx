@@ -24,6 +24,11 @@ import TeacherApplicationReview from './pages/operations-admin/TeacherApplicatio
 import TeacherAssignments from "./pages/operations-admin/TeacherAssignments";
 import TeacherMyClasses from "./pages/operations-admin/TeacherMyClasses";
 import Events from "./pages/operations-admin/Events";
+import TeacherManagement from "./pages/operations-admin/TeacherManagement";
+import StudentManagement from "./pages/operations-admin/StudentManagement";
+
+
+
 
 
 
@@ -57,6 +62,9 @@ const AppRoutes = () => {
         <Route path="/student/application" element={<Application />} />
         <Route path="/student/assignments" element={<StudentAssignments />} />
         <Route path="/operations-admin/events" element={<Events />} />
+       <Route path="/teachers" element={<TeacherManagement />} />
+       <Route path="/students" element={<StudentManagement />} />
+        
       </Routes>
     </Router>
   );

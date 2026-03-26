@@ -24,42 +24,44 @@ const financeController = require("../controllers/financeController");
 router.post(
   "/create-fee",
   auth,
-  role("FINANCE_ADMIN", "SUPER_ADMIN"),
+  role("finance-admin", "super-admin"),
   financeController.createFee
 );
 
 router.get(
   "/all",
   auth,
-  role("FINANCE_ADMIN", "SUPER_ADMIN"),
+  role("finance-admin", "super-admin"),
   financeController.getAllFees
+);
+
+router.put(
+  "/update/:feeId",
+  auth,
+  role("finance-admin", "super-admin"),
+  financeController.updateFee
+);
+
+router.delete(
+  "/delete/:feeId",
+  auth,
+  role("finance-admin", "super-admin"),
+  financeController.deleteFee
 );
 
 // ✅ Student → unchanged
 router.get(
   "/my-fees",
   auth,
-  role("STUDENT"),
+  role("student"),
   financeController.getMyFees
 );
 
 router.post(
   "/pay/:feeId",
   auth,
-  role("STUDENT"),
+  role("student"),
   financeController.payFee
-);
-router.put(
-  "/update/:feeId",
-  auth,
-  role("FINANCE_ADMIN", "SUPER_ADMIN"),
-  financeController.updateFee
-);
-router.delete(
-  "/delete/:feeId",
-  auth,
-  role("FINANCE_ADMIN", "SUPER_ADMIN"),
-  financeController.deleteFee
 );
 
 module.exports = router;

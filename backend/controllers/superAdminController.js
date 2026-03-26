@@ -1,42 +1,33 @@
+
 const User = require("../models/User");
+const Student = require("../models/Student");
 const bcrypt = require("bcryptjs");
 
-// 🔥 CREATE ADMIN
-exports.createAdmin = async (req, res) => {
+// 🔥 CREATE TEACHER
+exports.createTeacher = async (req, res) => {
   try {
-    const { name, email, password, phone, role } = req.body;
-
-    const allowedRoles = [
-      "academic-admin",
-      "student-admin",
-      "finance-admin",
-      "operations-admin"
-    ];
-
-    if (!allowedRoles.includes(role)) {
-      return res.status(400).json({ message: "Invalid admin role" });
-    }
+    const { name, email, password, phone } = req.body;
 
     const existing = await User.findOne({ email });
     if (existing) {
-      return res.status(400).json({ message: "User already exists" });
+      return res.status(400).json({ message: "Teacher already exists" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const admin = new User({
+    const teacher = new User({
       name,
       email,
       password: hashedPassword,
       phone,
-      role
+      role: "teacher"
     });
 
-    await admin.save();
+    await teacher.save();
 
     res.status(201).json({
-      message: "Admin created",
-      admin
+      message: "Teacher created successfully",
+      teacher
     });
 
   } catch (err) {
@@ -44,31 +35,93 @@ exports.createAdmin = async (req, res) => {
   }
 };
 
-// 🔥 GET ALL ADMINS
-exports.getAdmins = async (req, res) => {
+// 🔥 DELETE TEACHER
+exports.deleteTeacher = async (req, res) => {
   try {
-    const admins = await User.find({
-      role: { $in: [
-        "academic-admin",
-        "student-admin",
-        "finance-admin",
-        "operations-admin"
-      ]}
-    });
+    const teacher = await User.findById(req.params.id);
 
-    res.json(admins);
+    if (!teacher || teacher.role !== "teacher") {
+      return res.status(404).json({ message: "Teacher not found" });
+    }
 
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-// 🔥 DELETE ADMIN
-exports.deleteAdmin = async (req, res) => {
-  try {
     await User.findByIdAndDelete(req.params.id);
-    res.json({ message: "Admin deleted" });
 
+    res.json({ message: "Teacher deleted successfully" });
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// 🔥 ADD STUDENT (ONLY USER LEVEL)
+exports.createStudent = async (req, res) => {
+  try {
+    const { name, email, password, phone } = req.body;
+
+    const existing = await User.findOne({ email });
+    if (existing) {
+      return res.status(400).json({ message: "Student already exists" });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const student = new User({
+      name,
+      email,
+      password: hashedPassword,
+      phone,
+      role: "student"
+    });
+
+    await student.save();
+
+    res.status(201).json({
+      message: "Student created successfully",
+      student
+    });
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+exports.getTeachers = async (req, res) => {
+  try {
+    const teachers = await User.find({ role: "teacher" });
+    res.json(teachers);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+
+// 🔥 COMPLETE DELETE STUDENT (User + Profile)
+exports.deleteStudent = async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    // 🔍 Check user exists
+    const user = await User.findById(userId);
+
+    if (!user || user.role !== "student") {
+      return res.status(404).json({ message: "Student not found" });
+    }
+
+    // 🔥 Delete student profile (if exists)
+    await Student.findOneAndDelete({ user: userId });
+
+    // 🔥 Delete user
+    await User.findByIdAndDelete(userId);
+
+    res.json({ message: "Student fully deleted (User + Profile)" });
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+exports.getStudents = async (req, res) => {
+  try {
+    const students = await User.find({ role: "student" });
+    res.json(students);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
