@@ -26,8 +26,16 @@ const userSchema = new mongoose.Schema({
     required: [true, "Role is required"],
     lowercase: true,
     enum: {
-      values: ['student', 'teacher', 'admin'],
-      message: '{VALUE} is not a supported role' // Better error message for your console
+      values: [
+        'super-admin',
+        'academic-admin',
+        'student-admin',
+        'finance-admin',
+        'operations-admin',
+        'teacher',
+        'student'
+      ],
+      message: '{VALUE} is not a supported role'
     }
   },
   createdAt: {

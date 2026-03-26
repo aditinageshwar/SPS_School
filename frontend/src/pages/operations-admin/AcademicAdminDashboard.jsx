@@ -2,8 +2,14 @@ import React from 'react';
 import Sidebar from '../../components/Sidebar';
 import Navbar from '../../components/Navbar';
 import { FiBookOpen } from 'react-icons/fi';
+import { Outlet, useLocation } from "react-router-dom";
 
 const AcademicAdminDashboard = () => {
+  const location = useLocation();
+
+  // 👉 Check if we are on sub-route
+  const isSubRoute = location.pathname !== "/academic-admin";
+
   const stats = [
     { title: "Total Teachers", value: "145", fill: "90%", color: "var(--primary)" },
     { title: "Active Subjects", value: "32", fill: "75%", color: "var(--success)" },
@@ -19,47 +25,79 @@ const AcademicAdminDashboard = () => {
   return (
     <div className="app-layout">
       <Sidebar />
+
       <main className="main-content">
         <Navbar />
-        <div className="dashboard-container">
-          <div className="dashboard-header">
-            <div>
-              <h1>Academic Overview</h1>
-              <p style={{color: 'var(--text-muted)'}}>Manage teachers, subjects, and timetables.</p>
-            </div>
-            <button className="btn-primary"><FiBookOpen /> Assign Class</button>
-          </div>
 
-          <div className="cards-grid">
-            {stats.map((stat, i) => (
-              <div className="stat-card" key={i}>
-                <span className="stat-title">{stat.title}</span>
-                <span className="stat-value">{stat.value}</span>
-                <div className="stat-indicator"><div className="indicator-fill" style={{ width: stat.fill, backgroundColor: stat.color }}></div></div>
+        {/* 🔥 AGAR SUB ROUTE HAI → CHILD PAGE SHOW KARO */}
+        {isSubRoute ? (
+          <Outlet />
+        ) : (
+          <div className="dashboard-container">
+            <div className="dashboard-header">
+              <div>
+                <h1>Academic Overview</h1>
+                <p style={{color: 'var(--text-muted)'}}>
+                  Manage teachers, subjects, and timetables.
+                </p>
               </div>
-            ))}
-          </div>
+              <button className="btn-primary">
+                <FiBookOpen /> Assign Class
+              </button>
+            </div>
 
-          <div className="table-container">
-            <h3>Teacher Allocation Roster</h3>
-            <table className="data-table">
-              <thead>
-                <tr><th>Teacher Name</th><th>Subject</th><th>Classes</th><th>Status</th><th>Actions</th></tr>
-              </thead>
-              <tbody>
-                {teachers.map((t, i) => (
-                  <tr key={i}>
-                    <td>{t.name}</td><td>{t.subject}</td><td>{t.classes}</td>
-                    <td><span className={t.status === 'Assigned' ? 'badge approved' : 'badge pending'}>{t.status}</span></td>
-                    <td><button className="action-btn">View Timetable</button></td>
+            <div className="cards-grid">
+              {stats.map((stat, i) => (
+                <div className="stat-card" key={i}>
+                  <span className="stat-title">{stat.title}</span>
+                  <span className="stat-value">{stat.value}</span>
+                  <div className="stat-indicator">
+                    <div
+                      className="indicator-fill"
+                      style={{ width: stat.fill, backgroundColor: stat.color }}
+                    ></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="table-container">
+              <h3>Teacher Allocation Roster</h3>
+              <table className="data-table">
+                <thead>
+                  <tr>
+                    <th>Teacher Name</th>
+                    <th>Subject</th>
+                    <th>Classes</th>
+                    <th>Status</th>
+                    <th>Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {teachers.map((t, i) => (
+                    <tr key={i}>
+                      <td>{t.name}</td>
+                      <td>{t.subject}</td>
+                      <td>{t.classes}</td>
+                      <td>
+                        <span className={t.status === 'Assigned' ? 'badge approved' : 'badge pending'}>
+                          {t.status}
+                        </span>
+                      </td>
+                      <td>
+                        {/* ❌ remove timetable button */}
+                        <button className="action-btn">Edit</button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
+        )}
       </main>
     </div>
   );
 };
+
 export default AcademicAdminDashboard;

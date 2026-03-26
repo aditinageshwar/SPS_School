@@ -98,12 +98,23 @@ const Register = () => {
 
           <div className="form-group">
             <label>Applying For (Role)</label>
-            <select className="form-control" name="role" value={formData.role} onChange={handleChange} required>
-              <option value="">Select a role...</option>
-              <option value="student">Student</option>
-              <option value="teacher">Teacher / Faculty</option>
-              <option value="admin">Admin</option>
-            </select>
+            <select
+  className="form-control"
+  name="role"
+  value={formData.role}
+  onChange={handleChange}
+  required
+>
+  <option value="">Select a role...</option>
+
+  <option value="super-admin">Super Admin</option>
+  <option value="academic-admin">Academic Admin</option>
+  <option value="student-admin">Student Admin</option>
+  <option value="finance-admin">Finance Admin</option>
+
+  <option value="teacher">Teacher</option>
+  <option value="student">Student</option>
+</select>
           </div>
 
           {/* 2-Column Row for Passwords */}

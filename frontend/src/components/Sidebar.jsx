@@ -18,12 +18,11 @@ const Sidebar = () => {
       { path: '#system-logs', name: 'System Logs', icon: <FiActivity /> },
       { path: '#global-settings', name: 'Global Settings', icon: <FiSettings /> }
     ],
-    '/academic-admin': [
+    'academic-admin': [
       { path: '/academic-admin', name: 'Academic Home', icon: <FiHome /> },
-      { path: '#teachers', name: 'Teacher Directory', icon: <FiUsers /> },
-      { path: '#syllabus', name: 'Subjects & Syllabus', icon: <FiBookOpen /> },
-      { path: '#timetable', name: 'Master Timetable', icon: <FiCalendar /> },
-      { path: '#exams', name: 'Examination Dept', icon: <FiFileText /> }
+      { path: '/academic-admin/manage-teachers', name: ' Manage Teachers', icon: <FiUsers /> },
+      { path: '/academic-admin/manage-subjects', name: ' Manage Subjects ', icon: <FiBookOpen /> },
+      
     ],
     '/student-admin': [
       { path: '/student-admin', name: 'Admissions Home', icon: <FiHome /> },
