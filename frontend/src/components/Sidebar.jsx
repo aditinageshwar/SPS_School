@@ -19,7 +19,7 @@ const Sidebar = () => {
       { path: '#global-settings', name: 'Global Settings', icon: <FiSettings /> }
     ],
     'academic-admin': [
-      { path: '/academic-admin', name: 'Academic Home', icon: <FiHome /> },
+      // { path: '/academic-admin', name: 'Academic Home', icon: <FiHome /> },
       { path: '/academic-admin/manage-teachers', name: ' Manage Teachers', icon: <FiUsers /> },
       { path: '/academic-admin/manage-subjects', name: ' Manage Subjects ', icon: <FiBookOpen /> },
       

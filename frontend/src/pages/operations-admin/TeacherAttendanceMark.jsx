@@ -1,122 +1,152 @@
-import React, { useState, useEffect } from 'react';
-import Sidebar from '../../components/Sidebar';
-import Navbar from '../../components/Navbar';
-import API from '../../api/axios';
-import { FiSave, FiSearch, FiCheck, FiX, FiLoader } from 'react-icons/fi';
+// import React from "react";
+// import Sidebar from '../../components/Sidebar';
+// import Navbar from '../../components/Navbar';
 
-const TeacherAttendanceMark = () => {
-    const [filters, setFilters] = useState({ className: '', section: '', date: new Date().toISOString().split('T')[0] });
-    const [students, setStudents] = useState([]);
-    const [attendanceList, setAttendanceList] = useState({}); 
-    const [loading, setLoading] = useState(false);
+// const AcademicAdminHome = () => {
 
-    const handleFilterChange = (e) => {
-        const { name, value } = e.target;
-        setFilters(prev => ({ ...prev, [name]: value }));
-    };
+//   const user = JSON.parse(localStorage.getItem("user"));
+//   const userName = user?.name || "User";
 
-    const fetchStudents = async () => {
-        setLoading(true);
-        try {
-            const res = await API.get('/api/attendance/list', {
-              params: {
-                className: filters.className,
-                section: filters.section
-              }
-           });
-            setStudents(res.data);
-            const initialStatus = {};
-            res.data.forEach(s => initialStatus[s._id] = 'Present');
-            setAttendanceList(initialStatus);
-        } catch (err) {
-            console.error(err);
-        } finally {
-            setLoading(false);
-        }
-    };
+//   return (
+//     <div style={{ display: "flex" }}>
+      
+//       {/* ✅ Sidebar */}
+//       <Sidebar />
 
-    const handleStatusChange = (id, status) => {
-        setAttendanceList(prev => ({ ...prev, [id]: status }));
-    };
+//       {/* ✅ Main Content */}
+//       <div style={{ flex: 1 }}>
+        
+//         {/* ✅ Navbar */}
+//         <Navbar />
 
-    const submitAttendance = async () => {
-        const data = Object.keys(attendanceList).map(id => ({
-            studentId: id,
-            status: attendanceList[id]
-        }));
-        try {
-            await API.post('/api/attendance/bulkSubmit', { attendanceData: data, date: filters.date });
-            alert("Attendance recorded successfully!");
-        } catch (err) {
-            alert("Error saving attendance");
-        }
-    };
+//         <div className="home-container">
 
-    return (
-        <div className="app-layout">
-            <Sidebar />
-            <main className="main-content">
-                <Navbar />
-                <div className="p-8">
-                    <h1 className="text-2xl font-bold mb-6">Mark Attendance</h1>
-                    
-                    {/* Filters Row */}
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 rounded-3xl shadow-sm mb-8">
-                        <input type="date" name="date" className="!text-slate-900 bg-white border border-slate-200 px-4 rounded-xl" value={filters.date} onChange={handleFilterChange} required/>
-                        <input type="text" name="className" placeholder="Class (e.g. 8th)" className=" !text-slate-900 bg-white border border-slate-200 px-4 rounded-xl" value={filters.className} onChange={handleFilterChange} required/>
-                        <input type="text" name="section" placeholder="Section (e.g. A)" className="!text-slate-900 bg-white border border-slate-200 px-4 rounded-xl" value={filters.section} onChange={handleFilterChange} required/>
-                        <button onClick={fetchStudents} disabled={loading} className="login-btn flex items-center justify-center gap-2">
-                            {loading ? <FiLoader className="animate-spin" /> : <FiSearch />}
-                            Fetch List
-                        </button>
-                    </div>
+//           <style>{`
+//             .home-container {
+//               padding: 20px;
+//               background: #f5f6fa;
+//               min-height: 100vh;
+//             }
 
-                    {students.length > 0 && (
-                        <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
-                            <table className="w-full text-left">
-                                <thead className="bg-slate-50 text-slate-500 text-xs font-bold uppercase">
-                                    <tr>
-                                        <th className="px-6 py-4">Roll No</th>
-                                        <th className="px-6 py-4">Student Name</th>
-                                        <th className="px-6 py-4 text-center">Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-slate-100">
-                                    {students.map((student) => (
-                                        <tr key={student._id}>
-                                            <td className="px-6 py-4 font-bold">{student.rollNumber}</td>
-                                            <td className="px-6 py-4">{student.user?.name}</td>
-                                            <td className="px-6 py-4">
-                                                <div className="flex justify-center gap-2">
-                                                    <button 
-                                                        onClick={() => handleStatusChange(student._id, 'Present')}
-                                                        className={`p-2 rounded-lg ${attendanceList[student._id] === 'Present' ? 'bg-green-100 text-green-600' : 'bg-slate-100 text-slate-400'}`}
-                                                    >
-                                                        <FiCheck />
-                                                    </button>
-                                                    <button 
-                                                        onClick={() => handleStatusChange(student._id, 'Absent')}
-                                                        className={`p-2 rounded-lg ${attendanceList[student._id] === 'Absent' ? 'bg-red-100 text-red-600' : 'bg-slate-100 text-slate-400'}`}
-                                                    >
-                                                        <FiX />
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                            <div className="p-6 bg-slate-50 border-t flex justify-center">
-                                <button onClick={submitAttendance} className="login-btn !w-1/2 flex items-center justify-center gap-2">
-                                    <FiSave /> Save Attendance
-                                </button>
-                            </div>
-                        </div>
-                    )}
-                </div>
-            </main>
-        </div>
-    );
-};
+//             .hero {
+//               display: flex;
+//               justify-content: space-between;
+//               align-items: center;
+//               background: linear-gradient(90deg, #f7e7d9, #dce8ff);
+//               padding: 25px;
+//               border-radius: 12px;
+//               margin-bottom: 20px;
+//             }
 
-export default TeacherAttendanceMark;
+//             .hero-text h2 {
+//               font-size: 24px;
+//             }
+
+//             .hero-text span {
+//               color: #2f6fed;
+//               font-weight: bold;
+//             }
+
+//             .quote {
+//               margin-top: 10px;
+//               padding-left: 10px;
+//               border-left: 3px solid #2f6fed;
+//               font-style: italic;
+//             }
+
+//             .hero img {
+//               width: 180px;
+//             }
+
+//             .about-box {
+//               background: white;
+//               padding: 20px;
+//               border-radius: 10px;
+//               margin-bottom: 20px;
+//             }
+
+//             .about-content {
+//               display: flex;
+//               gap: 25px;
+//               align-items: center;
+//             }
+
+//             .about-content img {
+//               width: 320px;
+//               border-radius: 10px;
+//             }
+
+//             .cards {
+//               display: flex;
+//               gap: 20px;
+//             }
+
+//             .card {
+//               flex: 1;
+//               background: white;
+//               padding: 20px;
+//               border-radius: 10px;
+//             }
+//           `}</style>
+
+//           {/* HERO */}
+//           <div className="hero">
+//             <div className="hero-text">
+//               <h2>
+//                 Welcome back, <span>{userName}</span>!
+//               </h2>
+//               <p>Academic Administrator • Leading Excellence in Education</p>
+
+//               <div className="quote">
+//                 “Education is the foundation of progress.”
+//               </div>
+//             </div>
+
+//             <img src="https://cdn-icons-png.flaticon.com/512/3135/3135755.png" />
+//           </div>
+
+//           {/* ABOUT */}
+//           <div className="about-box">
+//             <h3>About Academic Administration</h3>
+
+//             <div className="about-content">
+//               <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f" />
+
+//               <div>
+//                 <p>
+//                   Academic Administration manages all academic operations,
+//                   ensuring quality education and smooth coordination.
+//                 </p>
+
+//                 <ul>
+//                   <li>✔ Managing teachers</li>
+//                   <li>✔ Subject allocation</li>
+//                   <li>✔ Performance tracking</li>
+//                 </ul>
+//               </div>
+//             </div>
+//           </div>
+
+//           {/* CARDS */}
+//           <div className="cards">
+//             <div className="card">
+//               <h4>Key Responsibilities</h4>
+//               <ul>
+//                 <li>Teacher management</li>
+//                 <li>Subject planning</li>
+//               </ul>
+//             </div>
+
+//             <div className="card">
+//               <h4>Vision</h4>
+//               <p>Build a strong academic system.</p>
+//             </div>
+//           </div>
+
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default AcademicAdminHome;

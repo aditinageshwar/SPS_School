@@ -9,11 +9,10 @@ import StudentRegister from './pages/auth/StudentRegister';
 
 // Dashboards
 import SuperAdminDashboard from './pages/operations-admin/SuperAdminDashboard';
-import AcademicAdminDashboard from './pages/operations-admin/AcademicAdminDashboard';
 import StudentAdminDashboard from './pages/operations-admin/StudentAdminDashboard';
 import FinanceAdminDashboard from './pages/operations-admin/FinanceAdminDashboard';
 import OperationsAdminDashboard from './pages/operations-admin/OperationsAdminDashboard';
-
+import AcademicAdminDashboard from './pages/operations-admin/AcademicAdminDashboard';
 // Teacher
 import TeacherDashboard from './pages/operations-admin/TeacherDashboard';
 import TeacherAttendanceMark from './pages/operations-admin/TeacherAttendanceMark';
@@ -28,10 +27,8 @@ import StudentAttendance from './pages/operations-admin/StudentAttendance';
 import Application from './pages/operations-admin/Application';
 import StudentAssignments from './pages/operations-admin/StudentAssignments';
 
-// ✅ Existing
+// Academic Admin Pages
 import ManageTeachers from "./pages/ManageTeachers";
-
-// 🔥 ADD THIS
 import ManageSubjects from "./pages/ManageSubjects";
 
 const AppRoutes = () => {
@@ -45,15 +42,22 @@ const AppRoutes = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/student-register" element={<StudentRegister />} />
 
-        {/* Dashboards */}
+        {/* Super Admin */}
         <Route path="/super-admin" element={<SuperAdminDashboard />} />
 
-        {/* ✅ ACADEMIC ADMIN WITH NESTED ROUTES */}
-        <Route path="/academic-admin" element={<AcademicAdminDashboard />}>
-          <Route path="manage-teachers" element={<ManageTeachers />} />
-          <Route path="manage-subjects" element={<ManageSubjects />} />
-        </Route>
+        {/* ✅ ACADEMIC ADMIN (SIMPLE ROUTES) */}
+        {/* ✅ ACADEMIC ADMIN (FIXED NESTED ROUTES) */}
+<Route path="/academic-admin" element={<AcademicAdminDashboard />}>
 
+  {/* Default Dashboard Page */}
+  <Route index element={<div />} />
+
+  {/* Child Pages */}
+  <Route path="manage-teachers" element={<ManageTeachers />} />
+  <Route path="manage-subjects" element={<ManageSubjects />} />
+
+</Route>
+        {/* Other Dashboards */}
         <Route path="/student-admin" element={<StudentAdminDashboard />} />
         <Route path="/finance-admin" element={<FinanceAdminDashboard />} />
         <Route path="/operations-admin" element={<OperationsAdminDashboard />} />
