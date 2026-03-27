@@ -7,38 +7,19 @@ const SuperAdminDashboard = () => {
   const navigate = useNavigate();
 
   const modules = [
-    {
-      title: "Manage Teachers",
-      desc: "Add / Delete Teachers",
-      path: "/teachers"
-    },
-    {
-      title: "Manage Students",
-      desc: "Add / Delete Students",
-      path: "/students"
-    },
-    {
-      title: "Manage Fees",
-      desc: "Create / Update Fees",
-      path: "/finance"
-    },
-    {
-      title: "Manage Events",
-      desc: "Create / Update Events",
-      path: "/operations-admin"
-    }
+    { title: "Manage Teachers", desc: "Add / Delete Teachers", path: "/teachers"},
+    { title: "Manage Students", desc: "Add / Delete Students", path: "/students"},
+    { title: "Manage Fees", desc: "Create / Update Fees", path: "/finance-admin"   },
+    { title: "Manage Events", desc: "Create / Update Events", path: "/operations-admin"}
   ];
 
   return (
     <div className="app-layout">
       <Sidebar />
-
       <main className="main-content">
         <Navbar />
 
         <div className="dashboard-container">
-
-          {/* Header */}
           <div className="dashboard-header">
             <div>
               <h1>Super Admin Control Panel</h1>
@@ -48,13 +29,14 @@ const SuperAdminDashboard = () => {
             </div>
           </div>
 
-          {/* 🔥 MODULE CARDS */}
           <div className="cards-grid">
             {modules.map((item, i) => (
               <div
                 className="stat-card"
                 key={i}
-                onClick={() => navigate(item.path)}
+                onClick={() =>
+                  navigate(item.path, { state: { from: "super-admin" } })
+                }
                 style={{ cursor: "pointer" }}
               >
                 <span className="stat-title">{item.title}</span>
@@ -76,7 +58,6 @@ const SuperAdminDashboard = () => {
               </div>
             ))}
           </div>
-
         </div>
       </main>
     </div>

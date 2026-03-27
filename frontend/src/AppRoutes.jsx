@@ -23,7 +23,10 @@ import TeacherAttendanceMark from './pages/operations-admin/TeacherAttendanceMar
 import TeacherApplicationReview from './pages/operations-admin/TeacherApplicationReview';
 import TeacherAssignments from "./pages/operations-admin/TeacherAssignments";
 import TeacherMyClasses from "./pages/operations-admin/TeacherMyClasses";
+
 import Events from "./pages/operations-admin/Events";
+import TeacherManagement from "./pages/operations-admin/TeacherManagement";
+import StudentManagement from "./pages/operations-admin/StudentManagement";
 
 const AppRoutes = () => {
   return (
@@ -40,7 +43,7 @@ const AppRoutes = () => {
         <Route path="/student-admin" element={<StudentAdminDashboard />} />
         <Route path="/finance-admin" element={<FinanceAdminDashboard />} />
         <Route path="/operations-admin" element={<OperationsAdminDashboard />} />
-
+      
         <Route path="/teacher" element={<TeacherDashboard />} />
         <Route path="/teacher/attendanceMark" element={<TeacherAttendanceMark />} />
         <Route path="/teacher/application" element={<TeacherApplicationReview/>} />
@@ -52,6 +55,10 @@ const AppRoutes = () => {
         <Route path="/student/attendance" element={<StudentAttendance />} />
         <Route path="/student/application" element={<Application />} />
         <Route path="/student/assignments" element={<StudentAssignments />} />
+
+        <Route path="/operations-admin/events" element={<Events />} />
+        <Route path="/teachers" element={<TeacherManagement />} />
+        <Route path="/students" element={<StudentManagement />} />
       </Routes>
     </Router>
   );

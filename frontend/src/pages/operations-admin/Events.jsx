@@ -1,26 +1,15 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import API from "../../api/axios";
 import "../../styles/events.css";
 
 const Events = () => {
   const [events, setEvents] = useState([]);
   const [editingId, setEditingId] = useState(null);
+  const [form, setForm] = useState({title: "", description: "", date: "", location: ""});
 
-  const [form, setForm] = useState({
-    title: "",
-    description: "",
-    date: "",
-    location: ""
-  });
-
-  const token = localStorage.getItem("token");
-
-  // 🔥 fetch events
   const fetchEvents = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/events/all", {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const res = await API.get("/api/events/all");
       setEvents(res.data);
     } catch (err) {
       console.log(err);
@@ -31,7 +20,6 @@ const Events = () => {
     fetchEvents();
   }, []);
 
-  // 🟡 EDIT EVENT
   const editEvent = (event) => {
     setForm({
       title: event.title,
@@ -42,38 +30,24 @@ const Events = () => {
     setEditingId(event._id);
   };
 
-  // 🟥 DELETE EVENT
   const deleteEvent = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/events/${id}`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      await API.delete(`/api/events/${id}`);
       fetchEvents();
     } catch (err) {
       console.log(err);
     }
   };
 
-  // 🔥 CREATE + UPDATE
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       if (editingId) {
-        await axios.put(
-          `http://localhost:5000/api/events/${editingId}`,
-          form,
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
+        await API.put(`/api/events/${editingId}`,form);
         setEditingId(null);
       } else {
-        await axios.post(
-          "http://localhost:5000/api/events/create",
-          form,
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
+        await API.post("/api/events/create", form);
       }
-
       setForm({ title: "", description: "", date: "", location: "" });
       fetchEvents();
     } catch (err) {
@@ -88,7 +62,6 @@ const Events = () => {
       {/* 🔵 FORM */}
       <div className="card">
         <h3>{editingId ? "Update Event" : "Create Event"}</h3>
-
         <form onSubmit={handleSubmit} className="form-grid">
           <input
             type="text"
@@ -151,14 +124,14 @@ const Events = () => {
                 <td>
                   <div className="action-buttons">
                     <button
-                      className="btn-edit"
+                      className="flex items-center gap-2 px-4 py-2 text-sm font-bold text-blue-600 bg-blue-50 border border-blue-100 rounded-xl hover:bg-blue-600 hover:text-white hover:shadow-lg hover:shadow-blue-200 transition-all duration-200 active:scale-95"
                       onClick={() => editEvent(e)}
                     >
                       ✏️ Edit
                     </button>
 
                     <button
-                      className="btn-delete"
+                      className="flex items-center gap-2 px-4 py-2 text-sm font-bold text-red-600 bg-red-50 border border-red-100 rounded-xl hover:bg-red-600 hover:text-white hover:shadow-lg hover:shadow-red-200 transition-all duration-200 active:scale-95"
                       onClick={() => deleteEvent(e._id)}
                     >
                       🗑 Delete

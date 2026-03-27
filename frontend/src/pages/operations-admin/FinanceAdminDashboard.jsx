@@ -11,6 +11,7 @@ const FinanceAdminDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({studentId: '', amount: '', dueDate: '', status: 'Pending'});
+  const [editingId, setEditingId] = useState(null);
 
   const [students, setStudents] = useState([]); 
   const [filteredStudents, setFilteredStudents] = useState([]);
@@ -30,7 +31,7 @@ const FinanceAdminDashboard = () => {
     if (filters.className) result = result.filter(s => s.className === filters.className);
     if (filters.section) result = result.filter(s => s.section === filters.section);
     if (!filters.className && !filters.section) {
-       setFilteredStudents([]); 
+      setFilteredStudents([]); 
     } 
     else {
       setFilteredStudents(result);
@@ -55,15 +56,43 @@ const FinanceAdminDashboard = () => {
   const handleCreateFee = async (e) => {
     e.preventDefault();
     try {
-      await API.post('/api/finance/create-fee', formData);
+      if (editingId) {
+        await API.put(`/api/finance/update/${editingId}`, formData);
+        alert("Fee record updated successfully!");
+      } else {
+        await API.post('/api/finance/create-fee', formData);
+        alert("Fee record created successfully!");
+      }
+      setEditingId(null);
       setShowModal(false);
       setFormData({ studentId: '', amount: '', dueDate: '', status: 'Pending' });
       fetchFees(); 
-      alert("Fee record created successfully!");
     } catch (err) {
       alert("Error creating fee: " + err.response?.data?.message || err.message);
     }
   };
+
+  const handleDeleteFee = async (id) => {
+  if (window.confirm("Are you sure you want to delete this fee record?")) {
+    try {
+      await API.delete(`/api/finance/delete/${id}`);
+      fetchFees(); 
+    } catch (err) {
+      alert("Error deleting fee: " + (err.response?.data?.message || err.message));
+    }
+  }
+};
+
+  const handleEditClick = (tx) => {
+  setEditingId(tx._id);
+  setFormData({
+    studentId: tx.studentId,
+    amount: tx.amount,
+    dueDate: tx.dueDate, 
+    status: tx.status
+  });
+  setShowModal(true);
+};
 
   //--Generate Invoice-----
   const generateInvoice = (tx) => {
@@ -186,7 +215,7 @@ const FinanceAdminDashboard = () => {
               <h1>Finance Dashboard</h1>
               <p style={{color: 'var(--text-muted)'}}>Manage fee structures and collections.</p>
             </div>
-            <button className="btn-primary" onClick={() => setShowModal(true)}><FiDollarSign /> Create Pending Fees </button>
+            <button className="btn-primary" onClick={() => setShowModal(true)}><FiDollarSign /> Create/Update Fees </button>
           </div>
 
           <div className="cards-grid">
@@ -226,9 +255,13 @@ const FinanceAdminDashboard = () => {
                     <td>{tx.studentId?.rollNumber}</td>
                     <td>{tx.amount} ₹</td>
                     <td><span className={tx.status === 'Paid' ? 'badge approved' : 'badge pending'}>{tx.status}</span></td>
-                    <th>{tx.paymentDate}</th>
-                    <td><button className="action-btn" onClick={() => generateInvoice(tx)}
-                      disabled={tx.status !== 'Paid'} style={{ opacity: tx.status !== 'Paid' ? 0.5 : 1 }}>Generate Invoice</button></td>
+                    <td>{tx.paymentDate}</td>
+                    <td className="flex items-center gap-2">
+                      <button className="action-btn" onClick={() => generateInvoice(tx)}
+                      disabled={tx.status !== 'Paid'} style={{ opacity: tx.status !== 'Paid' ? 0.5 : 1 }}>Generate Invoice</button>
+                      <button className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" onClick={() => handleEditClick(tx)}> ✏️ </button>
+                      <button className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors" onClick={() => handleDeleteFee(tx._id)}> 🗑️ </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -242,12 +275,28 @@ const FinanceAdminDashboard = () => {
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
             <div className="bg-white rounded-2xl w-full max-w-md p-8 shadow-2xl animate-in fade-in zoom-in duration-200">
               <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-bold text-gray-800">Create Fee Record</h2>
+                <h2 className="text-xl font-bold text-gray-800">
+                  {editingId ? "Update Fee Record" : "Create Fee Record"}
+                </h2>
                 <button onClick={() => setShowModal(false)} className="text-gray-400 hover:text-gray-600">
                   <FiX size={24} />
                 </button>
               </div>
               
+              {editingId && (
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Status</label>
+                <select className="w-full p-2 border rounded-lg bg-gray-50 mb-4"
+                  value={formData.status}
+                  onChange={(e) => setFormData({...formData, status: e.target.value})}
+                >
+                  <option value="Pending">Pending</option>
+                  <option value="Paid">Paid</option>
+                  <option value="Overdue">Overdue</option>
+                </select>
+              </div>
+              )}
+
               <form onSubmit={handleCreateFee} className="space-y-5">
                 {/* Step 1: Filter by Class & Section */}
               <div className="grid grid-cols-2 gap-8">
@@ -339,7 +388,7 @@ const FinanceAdminDashboard = () => {
                     type="submit"
                     className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all shadow-md"
                   >
-                    Generate Fee
+                    {editingId ? "Update Record" : "Generate Fee"}
                   </button>
                 </div>
               </form>
