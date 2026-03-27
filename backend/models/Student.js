@@ -10,7 +10,20 @@ const studentSchema = new mongoose.Schema({
   section: { type: String, required: true },
   rollNumber: { type: String, required: true, unique: true },
   address: { type: String },
-  dob: { type: Date, required: true }
+  dob: { type: Date, required: true },
+
+  // for Student Admin perspective
+  allocationDate: { type: Date },
+  previousClassName: { type: String },
+  previousSection: { type: String },
+  promotionHistory: [
+    {
+      from: { type: String },
+      to: { type: String },
+      promotedAt: { type: Date },
+      promotedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
+    }
+  ],
 });
 
 module.exports = mongoose.model("Student", studentSchema);

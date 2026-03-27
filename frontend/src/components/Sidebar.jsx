@@ -5,7 +5,7 @@ import {
   FiBookOpen, FiCalendar, FiFileText, FiUserPlus, FiList, 
   FiTrendingUp, FiDollarSign, FiCreditCard, FiAlertCircle, 
   FiPieChart, FiTool, FiTruck, FiBell, FiCheckSquare, 
-  FiUploadCloud, FiEdit3, FiAward, FiMail 
+  FiUploadCloud, FiEdit3, FiAward, FiMail, FiClipboard  
 } from 'react-icons/fi';
 
 const Sidebar = () => {
@@ -14,9 +14,9 @@ const Sidebar = () => {
   const sidebarMenus = {
     '/super-admin': [
       { path: '/super-admin', name: 'System Overview', icon: <FiHome /> },
-      { path: '#role-management', name: 'Role Management', icon: <FiShield /> },
-      { path: '#system-logs', name: 'System Logs', icon: <FiActivity /> },
-      { path: '#global-settings', name: 'Global Settings', icon: <FiSettings /> }
+      // { path: '#role-management', name: 'Role Management', icon: <FiShield /> },
+      // { path: '#system-logs', name: 'System Logs', icon: <FiActivity /> },
+      // { path: '#global-settings', name: 'Global Settings', icon: <FiSettings /> }
     ],
     '/academic-admin': [
       { path: '/academic-admin', name: 'Academic Home', icon: <FiHome /> },
@@ -26,25 +26,25 @@ const Sidebar = () => {
       { path: '#exams', name: 'Examination Dept', icon: <FiFileText /> }
     ],
     '/student-admin': [
-      { path: '/student-admin', name: 'Admissions Home', icon: <FiHome /> },
-      { path: '#new-admission', name: 'New Admissions', icon: <FiUserPlus /> },
-      { path: '#directory', name: 'Student Directory', icon: <FiList /> },
-      { path: '#promotions', name: 'Promotions', icon: <FiTrendingUp /> },
-      { path: '#parents', name: 'Parent Comms', icon: <FiUsers /> }
+      { path: '/student-admin', name: 'Dashboard', icon: <FiHome /> },
+      // { path: '/student-admin/admissions', name: 'Admissions', icon: <FiClipboard /> },
+      // { path: '#profiles', name: 'Student Profiles', icon: <FiUsers /> },
+      // { path: '#allocation', name: 'Class Allocation', icon: <FiList /> },
+      // { path: '#promotions', name: 'Promotions', icon: <FiTrendingUp /> }
     ],
     '/finance-admin': [
       { path: '/finance-admin', name: 'Finance Home', icon: <FiHome /> },
-      { path: '#structures', name: 'Fee Structures', icon: <FiDollarSign /> },
-      { path: '#collection', name: 'Fee Collection', icon: <FiCreditCard /> },
-      { path: '#defaulters', name: 'Defaulters List', icon: <FiAlertCircle /> },
-      { path: '#payroll', name: 'Payroll & Expenses', icon: <FiPieChart /> }
+      // { path: '#structures', name: 'Fee Structures', icon: <FiDollarSign /> },
+      // { path: '#collection', name: 'Fee Collection', icon: <FiCreditCard /> },
+      // { path: '#defaulters', name: 'Defaulters List', icon: <FiAlertCircle /> },
+      // { path: '#payroll', name: 'Payroll & Expenses', icon: <FiPieChart /> }
     ],
     '/operations-admin': [
       { path: '/operations-admin', name: 'Operations Home', icon: <FiHome /> },
-      { path: '#infrastructure', name: 'Infrastructure', icon: <FiTool /> },
-      { path: '#transport', name: 'Transport Management', icon: <FiTruck /> },
-      { path: '#events', name: 'Events Calendar', icon: <FiCalendar /> },
-      { path: '#notice-board', name: 'Notice Board', icon: <FiBell /> }
+      // { path: '#infrastructure', name: 'Infrastructure', icon: <FiTool /> },
+      // { path: '#transport', name: 'Transport Management', icon: <FiTruck /> },
+      // { path: '#events', name: 'Events Calendar', icon: <FiCalendar /> },
+      // { path: '#notice-board', name: 'Notice Board', icon: <FiBell /> }
     ],
     'teacher': [
       { path: '/teacher', name: 'My Dashboard', icon: <FiHome /> },
