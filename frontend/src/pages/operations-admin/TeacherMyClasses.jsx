@@ -24,7 +24,7 @@ const TeacherMyClasses = () => {
             setError(null);
         } catch (err) {
             console.error("Error fetching classes:", err);
-            setError("Classes load karne mein error aaya.");
+            setError("Error while fetching classes");
         } finally {
             setLoading(false);
         }
