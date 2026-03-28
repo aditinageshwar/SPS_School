@@ -1,22 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Sidebar from '../../components/Sidebar';
 import Navbar from '../../components/Navbar';
-import { FiSearch, FiBook, FiClock, FiCalendar } from 'react-icons/fi';
+import { FiSearch, FiBook, FiClock, FiMapPin, FiInbox, FiLayers } from 'react-icons/fi';
+import API from "../../api/axios"; 
 
 const TeacherMyClasses = () => {
     const [search, setSearch] = useState("");
+    const [classes, setClasses] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-    const classes = [
-        { subject: "Mathematics", class: "Class 8 - A", time: "9:00 AM - 9:45 AM", assignment: "Worksheet on Algebra", due: "26 March 2026" },
-        { subject: "Science", class: "Class 7 - B", time: "10:00 AM - 10:45 AM", assignment: "Chapter 5 Worksheet", due: "25 March 2026" },
-        { subject: "English", class: "Class 6 - C", time: "11:00 AM - 11:45 AM", assignment: "Essay on My Best Friend", due: "27 March 2026" },
-        { subject: "Mathematics", class: "Class 9 - B", time: "12:15 PM - 1:00 PM", assignment: "Geometry Test", due: "28 March 2026" },
-        { subject: "Science", class: "Class 7 - A", time: "1:15 PM - 2:00 PM", assignment: "", due: "" },
-    ];
+    const email = localStorage.getItem('userEmail');
+
+    useEffect(() => {
+        fetchClasses();
+    }, []);
+
+    const fetchClasses = async () => {
+        try {
+            setLoading(true);
+            const response = await API.get(`/api/teacher/my-classes/${email}`);
+            setClasses(response.data.data);
+            setError(null);
+        } catch (err) {
+            console.error("Error fetching classes:", err);
+            setError("Classes load karne mein error aaya.");
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const filtered = classes.filter((c) =>
-        c.subject.toLowerCase().includes(search.toLowerCase()) ||
-        c.class.toLowerCase().includes(search.toLowerCase())
+        c.className?.toLowerCase().includes(search.toLowerCase()) ||
+        c.subjects?.some(sub => sub.name.toLowerCase().includes(search.toLowerCase()))
     );
 
     return (
@@ -26,82 +42,116 @@ const TeacherMyClasses = () => {
                 <Navbar />
 
                 <div className="p-8">
-                    {/* HEADER */}
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
                         <div>
-                            <h1 className="text-2xl font-bold text-slate-900">My Classes</h1>
-                            <p className="text-slate-500 text-sm">View and manage your scheduled classes.</p>
+                            <h1 className="text-2xl font-bold text-slate-900">My Class Schedule</h1>
+                            <p className="text-slate-500 text-sm">View class time-table</p>
                         </div>
 
                         <div className="relative group">
                             <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors" />
                             <input
                                 type="text"
-                                placeholder="Search subject or class..."
+                                placeholder="Search class or subject..."
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
-                                className="pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-2xl w-full md:w-72 outline-none focus:ring-2 ring-blue-500/20 focus:border-blue-500 transition-all shadow-sm"
+                                className="pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-2xl w-full md:w-80 outline-none focus:ring-2 ring-blue-500/20 focus:border-blue-500 transition-all shadow-sm"
                             />
                         </div>
                     </div>
 
-                    {/* TABLE CARD */}
+                    {error && (
+                        <div className="bg-red-50 text-red-600 p-4 rounded-xl mb-6 flex items-center gap-2">
+                            <FiInbox /> {error}
+                        </div>
+                    )}
+
+                    {/* TABLE CONTAINER */}
                     <div className="bg-white rounded-[32px] shadow-sm border border-slate-100 overflow-hidden">
                         <div className="overflow-x-auto">
-                            <table className="w-full text-left border-collapse">
-                                <thead>
-                                    <tr className="bg-slate-50/50 text-slate-500 text-xs font-bold uppercase tracking-wider">
-                                        <th className="px-8 py-5">Subject</th>
-                                        <th className="px-8 py-5">Class & Section</th>
-                                        <th className="px-8 py-5">Time</th>
-                                        <th className="px-8 py-5">Upcoming Assignment</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-slate-100">
-                                    {filtered.length > 0 ? (
-                                        filtered.map((c, i) => (
-                                            <tr key={i} className="hover:bg-slate-50/50 transition-colors group">
-                                                <td className="px-8 py-5 font-bold text-slate-700">
-                                                    <div className="flex items-center gap-3">
-                                                        <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600">
-                                                            <FiBook size={16} />
-                                                        </div>
-                                                        {c.subject}
-                                                    </div>
-                                                </td>
-                                                <td className="px-8 py-5 text-slate-600 font-medium">{c.class}</td>
-                                                <td className="px-8 py-5 text-slate-500">
-                                                    <div className="flex items-center gap-2">
-                                                        <FiClock className="text-slate-300" />
-                                                        {c.time}
-                                                    </div>
-                                                </td>
-                                                <td className="px-8 py-5">
-                                                    {c.assignment ? (
-                                                        <div className="bg-blue-50/80 border border-blue-100 p-3 rounded-2xl max-w-xs">
-                                                            <p className="text-xs font-bold text-blue-700 truncate">{c.assignment}</p>
-                                                            <div className="flex items-center gap-1 mt-1 text-[10px] text-blue-500 font-medium">
-                                                                <FiCalendar size={10} />
-                                                                Due: {c.due}
+                            {loading ? (
+                                <div className="py-20 text-center flex flex-col items-center gap-3">
+                                    <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                                    <p className="text-slate-500 font-medium">Loading your schedule...</p>
+                                </div>
+                            ) : (
+                                <table className="w-full text-left border-collapse">
+                                    <thead>
+                                        <tr className="bg-slate-50/50 text-slate-500 text-[11px] font-bold uppercase tracking-wider">
+                                            <th className="px-8 py-5">Class & Section</th>
+                                            <th className="px-8 py-5">Subjects Handled</th>
+                                            <th className="px-8 py-5">Time & Room</th>
+                                            <th className="px-8 py-5">Students</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-slate-100">
+                                        {filtered.length > 0 ? (
+                                            filtered.map((c, i) => (
+                                                <tr key={i} className="hover:bg-slate-50/50 transition-colors group">
+                                                    {/* 1. ClassName & Section */}
+                                                    <td className="px-8 py-5">
+                                                        <div className="flex items-center gap-3">
+                                                            <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600">
+                                                                <FiLayers size={18} />
+                                                            </div>
+                                                            <div>
+                                                                <div className="font-bold text-slate-800">{c.className}</div>
+                                                                <div className="text-xs text-slate-400 font-medium">Section {c.section}</div>
                                                             </div>
                                                         </div>
-                                                    ) : (
-                                                        <span className="text-xs text-slate-400 italic font-medium">
-                                                            No assignments
-                                                        </span>
-                                                    )}
+                                                    </td>
+
+                                                    {/* 2. Subjects.name & Subjects.code */}
+                                                    <td className="px-8 py-5">
+                                                        <div className="flex flex-col gap-1.5">
+                                                            {c.subjects?.map((sub, idx) => (
+                                                                <div key={idx} className="flex items-center gap-2">
+                                                                    <span className="bg-blue-100 text-blue-700 px-2 py-0.5 rounded text-[10px] font-bold uppercase">
+                                                                        {sub.code}
+                                                                    </span>
+                                                                    <span className="text-sm text-slate-600 font-medium">{sub.name}</span>
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    </td>
+
+                                                    {/* 3. StartTime, EndTime & Room */}
+                                                    <td className="px-8 py-5 text-slate-600">
+                                                        <div className="flex flex-col gap-1">
+                                                            <div className="flex items-center gap-2 text-sm font-semibold">
+                                                                <FiClock className="text-blue-500" />
+                                                                {c.startTime} - {c.endTime}
+                                                            </div>
+                                                            <div className="flex items-center gap-2 text-xs text-slate-400">
+                                                                <FiMapPin /> Room: {c.room || 'N/A'}
+                                                            </div>
+                                                        </div>
+                                                    </td>
+
+                                                    {/* 4. Occupancy / Capacity */}
+                                                    <td className="px-8 py-5">
+                                                        <div className="flex flex-col gap-1">
+                                                            <div className="text-xs font-bold text-slate-700">{c.capacity}</div>
+                                                            <div className="w-24 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                                                                <div 
+                                                                    className={`h-full ${ (c.capacity) > 0.5 ? 'bg-orange-400' : 'bg-blue-500'}`} 
+                                                                    style={{ width: `${(c.capacity) * 100}%` }}
+                                                                ></div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            ))
+                                        ) : (
+                                            <tr>
+                                                <td colSpan="4" className="px-8 py-20 text-center text-slate-400 italic font-medium">
+                                                    No classes found for you.
                                                 </td>
                                             </tr>
-                                        ))
-                                    ) : (
-                                        <tr>
-                                            <td colSpan="4" className="px-8 py-20 text-center text-slate-400">
-                                                No classes found matching your search.
-                                            </td>
-                                        </tr>
-                                    )}
-                                </tbody>
-                            </table>
+                                        )}
+                                    </tbody>
+                                </table>
+                            )}
                         </div>
                     </div>
                 </div>

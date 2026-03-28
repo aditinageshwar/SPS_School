@@ -21,8 +21,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/auth", require("./routes/authRoutes"));
-// app.use("/api/teacher", require("./routes/teacherRoutes"));
-
+app.use("/api/teacher", require("./routes/teacherRoutes"));
 app.use("/api/student", require("./routes/studentRoutes"));
 app.use("/api/attendance", require("./routes/attendanceRoutes"));
 app.use("/api/assignment", require("./routes/assignmentRoutes"));
@@ -30,7 +29,8 @@ app.use("/api/application", require("./routes/applicationRoutes"));
 app.use("/api/finance", require("./routes/financeRoutes"));
 app.use("/api/events", require("./routes/eventRoutes"));
 app.use("/api/super-admin", require("./routes/superAdminRoutes"));
-app.use("/api/admin", require("./routes/adminRoutes"));
+app.use("/api/admin", require("./routes/adminRoutes"));                //for student-admin 
+app.use("/api/academic-admin", require("./routes/academicAdminRoutes"));
 
 const PORT = process.env.PORT || 5000;
 app.listen(process.env.PORT, () => {

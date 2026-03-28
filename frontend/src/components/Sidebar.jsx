@@ -18,12 +18,11 @@ const Sidebar = () => {
       // { path: '#system-logs', name: 'System Logs', icon: <FiActivity /> },
       // { path: '#global-settings', name: 'Global Settings', icon: <FiSettings /> }
     ],
-    '/academic-admin': [
-      { path: '/academic-admin', name: 'Academic Home', icon: <FiHome /> },
-      { path: '#teachers', name: 'Teacher Directory', icon: <FiUsers /> },
-      { path: '#syllabus', name: 'Subjects & Syllabus', icon: <FiBookOpen /> },
-      { path: '#timetable', name: 'Master Timetable', icon: <FiCalendar /> },
-      { path: '#exams', name: 'Examination Dept', icon: <FiFileText /> }
+    'academic-admin': [
+      { path: '/academic-admin', name: 'Dashboard', icon: <FiHome /> },
+      { path: '/academic-admin/teachers', name: 'Teacher Management', icon: <FiUsers /> },
+      { path: '/academic-admin/subjects', name: 'Subjects', icon: <FiBookOpen /> },
+      { path: '/academic-admin/classes', name: 'Classes Management', icon: <FiCalendar /> }
     ],
     '/student-admin': [
       { path: '/student-admin', name: 'Dashboard', icon: <FiHome /> },
@@ -50,7 +49,6 @@ const Sidebar = () => {
       { path: '/teacher', name: 'My Dashboard', icon: <FiHome /> },
       { path: '/teacher/myclasses', name: 'My Classes', icon: <FiUsers /> },
       { path: '/teacher/attendanceMark', name: 'Attendance Entry', icon: <FiCheckSquare /> },
-      // { path: '#materials', name: 'Study Materials', icon: <FiUploadCloud /> },
       { path: '/teacher/assignments', name: 'Assignments', icon: <FiEdit3 /> },
       { path: '/teacher/application', name: 'Review Applications', icon: <FiFileText /> },
     ],
@@ -58,7 +56,6 @@ const Sidebar = () => {
       { path: '/student', name: 'My Dashboard', icon: <FiHome /> },
       { path: '/student/profile', name: 'My Profile', icon: <FiUsers /> },
       { path: '/student/attendance', name: 'Attendance', icon: <FiCheckSquare /> },
-      // { path: '/student/report-cards', name: 'Report Cards', icon: <FiAward /> },
       { path: '/student/application', name: 'Application', icon: <FiMail /> }
     ]
   };

@@ -38,19 +38,21 @@ const ClassAllocation = () => {
   const fetchClassNames = async () => {
     try {
       const response = await API.get("/api/admin/student-admin/classes");
-      setClasses(response.data.data);
+      setClasses(response.data?.data || []);
     } catch (error) {
       console.error("Error fetching class names:", error);
+      setClasses([]);
     }
   };
 
   const fetchUnallocatedStudents = async () => {
     try {
       setLoading(true);
+      setStatusMessage("");
       const response = await API.get(
         "/api/admin/student-admin/allocation/unallocated"
       );
-      setUnallocatedStudents(response.data.data);
+      setUnallocatedStudents(response.data?.data || []);
     } catch (error) {
       console.error("Error fetching unallocated students:", error);
       setStatusMessage("Failed to fetch unallocated students");
@@ -62,12 +64,14 @@ const ClassAllocation = () => {
   const fetchStudentsByClass = async () => {
     try {
       setLoading(true);
+      setStatusMessage("");
       const response = await API.get(
         `/api/admin/student-admin/classes/${selectedClass}/students`
       );
-      setStudentsByClass(response.data.data);
+      setStudentsByClass(response.data?.data || []);
     } catch (error) {
       console.error("Error fetching students by class:", error);
+      setStudentsByClass([]);
       setStatusMessage("Failed to fetch students");
     } finally {
       setLoading(false);
@@ -110,6 +114,10 @@ const ClassAllocation = () => {
       setShowModal(false);
       fetchUnallocatedStudents();
       fetchClassNames(); // Refresh class names after allocation
+    
+      if (activeTab === "byClass" && selectedClass) {
+      await fetchStudentsByClass();
+      }
     } catch (error) {
       console.error("Error allocating student:", error);
       setStatusMessage(

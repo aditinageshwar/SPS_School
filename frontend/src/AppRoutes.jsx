@@ -9,7 +9,12 @@ import StudentRegister from './pages/auth/StudentRegister';
 
 // Dashboard Pages
 import SuperAdminDashboard from './pages/operations-admin/SuperAdminDashboard';
+
 import AcademicAdminDashboard from './pages/operations-admin/AcademicAdminDashboard';
+import AcademicTeachersManagement from './pages/operations-admin/AcademicTeachersManagement';
+import AcademicSubjectsManagement from './pages/operations-admin/AcademicSubjectsManagement';
+import AcademicClassAssignments from './pages/operations-admin/AcademicClassAssignments';
+
 import StudentAdminDashboard from './pages/operations-admin/StudentAdminDashboard';
 import FinanceAdminDashboard from './pages/operations-admin/FinanceAdminDashboard';
 import OperationsAdminDashboard from './pages/operations-admin/OperationsAdminDashboard';
@@ -39,7 +44,12 @@ const AppRoutes = () => {
         
         {/* Secure Role-Based Dashboard Routes */}
         <Route path="/super-admin" element={<SuperAdminDashboard />} />
+
         <Route path="/academic-admin" element={<AcademicAdminDashboard />} />
+        <Route path="/academic-admin/teachers" element={<AcademicTeachersManagement />} />
+        <Route path="/academic-admin/subjects" element={<AcademicSubjectsManagement />} />
+        <Route path="/academic-admin/classes" element={<AcademicClassAssignments />} />
+
         <Route path="/student-admin" element={<StudentAdminDashboard />} />
         <Route path="/finance-admin" element={<FinanceAdminDashboard />} />
         <Route path="/operations-admin" element={<OperationsAdminDashboard />} />
