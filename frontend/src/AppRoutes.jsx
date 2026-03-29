@@ -4,8 +4,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 // Public & Authentication Pages
 import LandingPage from './pages/LandingPage';
 import Login from './pages/auth/Login';
-import Register from './pages/auth/Register';
-import StudentRegister from './pages/auth/StudentRegister';
 
 // Dashboard Pages
 import SuperAdminDashboard from './pages/operations-admin/SuperAdminDashboard';
@@ -40,8 +38,6 @@ const AppRoutes = () => {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/student-register" element={<StudentRegister />} />
         
         {/* Secure Role-Based Dashboard Routes */}
         <Route path="/super-admin" element={<SuperAdminDashboard />} />

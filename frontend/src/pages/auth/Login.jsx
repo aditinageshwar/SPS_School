@@ -108,16 +108,6 @@ const Login = () => {
             {loading ? "Verifying..." : "Secure Login"}
           </button>
         </form>
-
-        <div className="auth-toggle-text">
-          Don't have an account?{" "}
-          <span
-            className="auth-toggle-link"
-            onClick={() => navigate("/register")}
-          >
-            Register here
-          </span>
-        </div>
       </div>
     </div>
   );
