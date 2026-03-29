@@ -9,6 +9,11 @@ const SuperAdminDashboard = () => {
   const modules = [
     { title: "Manage Teachers", desc: "Add / Delete Teachers", path: "/teachers"},
     { title: "Manage Students", desc: "Add / Delete Students", path: "/students"},
+    { title: "Manage Finance Admin", desc: "Add / Delete Finance Admin", path: "/manage/finance-admin" },
+    { title: "Manage Academic Admin", desc: "Add / Delete Academic Admin", path: "/manage/academic-admin" },
+    { title: "Manage Student Admin", desc: "Add / Delete Student Admin", path: "/manage/student-admin" },
+    { title: "Manage Operations Admin", desc: "Add / Delete Operations Admin", path: "/manage/operations-admin" },  
+
     { title: "Manage Fees", desc: "Create / Update Fees", path: "/finance-admin"   },
     { title: "Manage Events", desc: "Create / Update Events", path: "/operations-admin"}
   ];
@@ -33,14 +38,24 @@ const SuperAdminDashboard = () => {
             {modules.map((item, i) => (
               <div
                 className="stat-card"
+                style={{ 
+                  cursor: "pointer",
+                  boxShadow: "10 20px 40px rgba(0,0,0,0.12)", 
+                  padding: "25px",
+                  borderRadius: "15px",
+                  transition: "transform 0.3s ease, box-shadow 0.3s ease",
+                  backgroundColor: "#fff",
+                  border: "1px solid #eee"
+                }}
                 key={i}
                 onClick={() =>
                   navigate(item.path, { state: { from: "super-admin" } })
                 }
-                style={{ cursor: "pointer" }}
               >
-                <span className="stat-title">{item.title}</span>
-                <span className="stat-value">→</span>
+               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span className="stat-title">{item.title}</span>
+                  <span className="stat-value" style={{ fontSize: '20px' }}>→</span>
+               </div>
 
                 <div className="stat-indicator">
                   <div

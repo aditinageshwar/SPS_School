@@ -15,11 +15,26 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: [true, "Password is required"]
+    required: [true, "Password is required"],
+    minlength: [8, 'Password must be at least 8 characters long'],
+    validate: {
+    validator: function(value) {
+      // Regex: 1 Uppercase, 1 Lowercase, 1 Number, 1 Special Char
+      return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])/.test(value);
+    },
+    message: 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.'
+  }
   },
   phone: { 
     type: String,
-    required: [true, "Phone number is required"]
+    required: [true, "Phone number is required"],
+    validate: {
+    validator: function(v) {
+      // Check if starts with +91 and has 10 digits after that
+      return /^\+91\d{10}$/.test(v);
+    },
+    message: props => `${props.value} is not a valid Indian phone number! Format: +91XXXXXXXXXX`
+  }
   },
   role: {
     type: String,

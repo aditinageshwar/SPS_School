@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import API from '../../api/axios';
 import Sidebar from '../../components/Sidebar';
 import Navbar from '../../components/Navbar';
-import { FiPlus, FiEdit2, FiTrash2, FiEye } from 'react-icons/fi';
+import { FiPlus, FiEdit2, FiTrash2, FiEye, FiEyeOff} from 'react-icons/fi';
 
 const TeachersAcademicManagement = () => {
+  const [showPassword, setShowPassword] = useState(false);
   const [teachers, setTeachers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -55,7 +56,20 @@ const TeachersAcademicManagement = () => {
         delete updateData.email; // Don't change email
         await API.put(`/api/academic-admin/teachers/${editingTeacher._id}`, updateData);
         alert('Teacher updated successfully');
-      } else {
+      } 
+      else {
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        const phoneRegex = /^\+91\d{10}$/;
+
+        if (!passwordRegex.test(formData.password)) {
+          alert("Password must be 8+ chars with uppercase, lowercase, number, and special character.");
+          return;
+        }
+
+        if (!phoneRegex.test(formData.phone)) {
+          alert("Phone number must start with +91 followed by 10 digits (e.g., +919876543210)");
+          return;
+        }
         // Create new teacher
         await API.post('/api/academic-admin/teachers', formData);
         alert('Teacher created successfully');
@@ -233,6 +247,7 @@ const TeachersAcademicManagement = () => {
                       <input
                         type="tel"
                         name="phone"
+                        maxLength={13}
                         className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-900"
                         value={formData.phone}
                         onChange={handleInputChange}
@@ -242,14 +257,23 @@ const TeachersAcademicManagement = () => {
                     {!editingTeacher && (
                       <div className="flex flex-col">
                         <label className="text-sm font-medium text-gray-700 mb-1">Password *</label>
-                        <input
-                          type="password"
-                          name="password"
-                          className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-900"
-                          value={formData.password}
-                          onChange={handleInputChange}
-                          required={!editingTeacher}
-                        />
+                        <div className='relative'>
+                          <input
+                            type={showPassword ? "text" : "password"}
+                            name="password"
+                            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-900"
+                            value={formData.password}
+                            onChange={handleInputChange}
+                            required={!editingTeacher}
+                          />
+                          <button 
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="absolute right-3 top-3 text-gray-500"
+                          >
+                            {showPassword ? <FiEyeOff /> : <FiEye />}
+                          </button>
+                        </div>
                       </div>
                     )}
                   </div>

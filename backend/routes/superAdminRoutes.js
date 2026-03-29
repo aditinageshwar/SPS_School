@@ -13,4 +13,8 @@ router.post("/create-student", auth, role("super-admin"), controller.createStude
 router.delete("/delete-student/:id", auth, role("super-admin"), controller.deleteStudent);
 router.get("/students", auth, role("super-admin"), controller.getStudents);
 
+router.get('/role/:role', auth, role("super-admin"), controller.getAdminsByRole);
+router.post('/create-admin', auth, role("super-admin"), controller.createSpecializedAdmin);
+router.delete('/delete-admin/:id', auth, role("super-admin"), controller.deleteAdmin);
+
 module.exports = router;

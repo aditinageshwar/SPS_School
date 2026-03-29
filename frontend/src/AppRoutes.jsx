@@ -32,6 +32,7 @@ import TeacherMyClasses from "./pages/operations-admin/TeacherMyClasses";
 import Events from "./pages/operations-admin/Events";
 import TeacherManagement from "./pages/operations-admin/TeacherManagement";
 import StudentManagement from "./pages/operations-admin/StudentManagement";
+import AdminManager from './pages/operations-admin/AdminManager';
 
 const AppRoutes = () => {
   return (
@@ -69,6 +70,7 @@ const AppRoutes = () => {
         <Route path="/operations-admin/events" element={<Events />} />
         <Route path="/teachers" element={<TeacherManagement />} />
         <Route path="/students" element={<StudentManagement />} />
+        <Route path="/manage/:role" element={<AdminManager />} />
       </Routes>
     </Router>
   );

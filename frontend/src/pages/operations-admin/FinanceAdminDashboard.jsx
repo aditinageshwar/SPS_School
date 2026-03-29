@@ -215,7 +215,11 @@ const FinanceAdminDashboard = () => {
               <h1>Finance Dashboard</h1>
               <p style={{color: 'var(--text-muted)'}}>Manage fee structures and collections.</p>
             </div>
-            <button className="btn-primary" onClick={() => setShowModal(true)}><FiDollarSign /> Create/Update Fees </button>
+            <button className="flex items-center gap-1 px-5 py-2.5 rounded-lg font-semibold transition-all shadow-sm bg-indigo-600 text-white" 
+              onClick={() => setShowModal(true)}>
+              <FiDollarSign/> 
+              <span> Create/Update Fees </span> 
+            </button>
           </div>
 
           <div className="cards-grid">

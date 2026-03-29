@@ -102,11 +102,6 @@ const Register = () => {
               <option value="">Select a role...</option>
               <option value="student">Student</option>
               <option value="teacher">Teacher / Faculty</option>
-              <option value="finance-admin">Finance Admin</option>
-              <option value="super-admin">Super Admin</option>
-              <option value="academic-admin">Academic Admin</option>
-              <option value="student-admin">Student Admin</option>
-              <option value="operations-admin">Operations Admin</option>
             </select>
           </div>
 
