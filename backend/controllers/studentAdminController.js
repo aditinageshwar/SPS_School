@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const Student = require("../models/Student");
 const Application = require("../models/Application");
+const bcrypt = require("bcryptjs");
 
 // ==================== ADMISSIONS MANAGEMENT ====================
 // Get all pending admissions (application requests)
@@ -104,6 +105,54 @@ exports.rejectAdmission = async (req, res) => {
 };
 
 // ==================== STUDENT PROFILES ====================
+
+exports.createStudent = async (req, res) => {
+  try {
+    const { name, email, phone, password, className, section, rollNumber, address, dob } = req.body;
+
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "Account with this email already exists" });
+    }
+    
+    const existingProfile = await Student.findOne({ rollNumber });
+    if (existingProfile) {
+      return res.status(400).json({ message: "Student profile already exists for this user." });
+    }
+    
+    // Hash Password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create normal user
+    const newUser = new User({
+      name,
+      email,
+      phone,
+      password: hashedPassword,
+      role: 'student'
+    });
+    const savedUser = await newUser.save();
+
+    // Create Student
+    const newProfile = new Student({
+      user: savedUser._id,      // This is the Foreign Key
+      className,
+      section,
+      rollNumber,
+      dob,
+      address
+    });
+    await newProfile.save();
+    
+    res.status(201).json({
+      success: true,
+      message: "Student admitted successfully",
+      data: newProfile
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Server Error", error: error.message });
+  }
+};
 
 // Get all student profiles
 exports.getAllStudents = async (req, res) => {

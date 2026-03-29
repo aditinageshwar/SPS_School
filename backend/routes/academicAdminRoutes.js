@@ -10,7 +10,7 @@ const academicAdminController = require("../controllers/academicAdminController"
 router.get("/dashboard-stats", auth, role("academic-admin"), academicAdminController.getDashboardStats);
 
 // ==================== TEACHER ROUTES ====================
-router.get("/teachers", auth, role("academic-admin"), academicAdminController.getAllTeachers);
+router.get("/teachers", auth, role(["academic-admin", "super-admin"]), academicAdminController.getAllTeachers);
 router.get("/teachers/:teacherId", auth, role("academic-admin"), academicAdminController.getTeacherById);
 router.post("/teachers", auth, role("academic-admin"), academicAdminController.createTeacher);
 router.put("/teachers/:teacherId", auth, role("academic-admin"), academicAdminController.updateTeacher);

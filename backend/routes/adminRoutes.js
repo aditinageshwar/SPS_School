@@ -16,8 +16,9 @@ router.post("/student-admin/admissions/:admissionId/approve", auth, role("studen
 router.post("/student-admin/admissions/:admissionId/reject", auth, role("student-admin"), studentAdminController.rejectAdmission);
 
 // ===== STUDENT PROFILES =====
-router.get("/student-admin/students", auth, role("student-admin"), studentAdminController.getAllStudents);
+router.get("/student-admin/students", auth, role(["student-admin", "super-admin"]), studentAdminController.getAllStudents);
 router.get("/student-admin/students/:studentId", auth, role("student-admin"), studentAdminController.getStudentProfile);
+router.post('/student-admin/create-student', auth, role('student-admin'), studentAdminController.createStudent);
 router.put("/student-admin/students/:studentId", auth, role("student-admin"), studentAdminController.updateStudentProfile);
 router.delete("/student-admin/students/:studentId", auth, role("student-admin"), studentAdminController.deleteStudent);
 

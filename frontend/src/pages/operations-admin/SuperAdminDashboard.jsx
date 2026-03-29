@@ -7,8 +7,8 @@ const SuperAdminDashboard = () => {
   const navigate = useNavigate();
 
   const modules = [
-    { title: "Manage Teachers", desc: "Add / Delete Teachers", path: "/teachers"},
-    { title: "Manage Students", desc: "Add / Delete Students", path: "/students"},
+    { title: "Manage Teachers", desc: "View Teachers", path: "/teachers"},
+    { title: "Manage Students", desc: "View Students", path: "/students"},
     { title: "Manage Finance Admin", desc: "Add / Delete Finance Admin", path: "/manage/finance-admin" },
     { title: "Manage Academic Admin", desc: "Add / Delete Academic Admin", path: "/manage/academic-admin" },
     { title: "Manage Student Admin", desc: "Add / Delete Student Admin", path: "/manage/student-admin" },

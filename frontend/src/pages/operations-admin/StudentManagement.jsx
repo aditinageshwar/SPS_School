@@ -6,12 +6,11 @@ import API from "../../api/axios";
 
 const StudentManagement = () => {
   const [students, setStudents] = useState([]);
-  const [form, setForm] = useState({name: "", email: "", phone: "", password: ""});
 
   const fetchStudents = async () => {
     try {
-      const res = await API.get("/api/super-admin/students");
-      setStudents(res.data);
+      const res = await API.get("/api/admin/student-admin/students");
+      setStudents(res.data.data);
     } catch (err) {
       console.log(err);
     }
@@ -21,28 +20,6 @@ const StudentManagement = () => {
     fetchStudents();
   }, []);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await API.post("/api/super-admin/create-student", form);
-      alert("Student Added Successfully");
-      setForm({name: "",email: "", phone: "", password: ""});
-      fetchStudents();
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const deleteStudent = async (id) => {
-    try {
-      await API.delete(`/api/super-admin/delete-student/${id}`);
-      alert("Student Deleted");
-      fetchStudents();
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   return (
     <div className="app-layout">
       <Sidebar />
@@ -50,85 +27,29 @@ const StudentManagement = () => {
         <Navbar />
 
         <div className="dashboard-container">
-          <h2>🎓 Student Management</h2>
-          <div className="card">
-            <h3>Add Student</h3>
-
-            <form onSubmit={handleSubmit} className="form-grid">
-              <input
-                type="text"
-                placeholder="Name"
-                value={form.name}
-                onChange={(e) =>
-                  setForm({ ...form, name: e.target.value })
-                }
-                required
-              />
-
-              <input
-                type="email"
-                placeholder="Email"
-                value={form.email}
-                onChange={(e) =>
-                  setForm({ ...form, email: e.target.value })
-                }
-                required
-              />
-
-              <input
-                type="text"
-                placeholder="Phone"
-                value={form.phone}
-                onChange={(e) =>
-                  setForm({ ...form, phone: e.target.value })
-                }
-                required
-              />
-
-              <input
-                type="password"
-                placeholder="Password"
-                value={form.password}
-                onChange={(e) =>
-                  setForm({ ...form, password: e.target.value })
-                }
-                required
-              />
-
-              <button className="btn-primary">
-                Add Student
-              </button>
-            </form>
-          </div>
-
-          <div className="card">
-            <h3>All Students</h3>
+          <h2>🎓 View All Students </h2>
+          <div className="card">      
             <table className="data-table">
               <thead>
                 <tr>
                   <th>Name</th>
                   <th>Email</th>
                   <th>Phone</th>
-                  <th style={{ textAlign: "center" }}>Action</th>
+                  <th>Class</th>
+                  <th>Section</th>
+                  <th>Roll No.</th>
                 </tr>
               </thead>
 
               <tbody>
                 {students.map((s) => (
                   <tr key={s._id}>
-                    <td>{s.name}</td>
-                    <td>{s.email}</td>
-                    <td>{s.phone}</td>
-                    <td>
-                      <div className="action-buttons">
-                        <button
-                          className="btn-delete"
-                          onClick={() => deleteStudent(s._id)}
-                        >
-                          🗑 Delete
-                        </button>
-                      </div>
-                    </td>
+                    <td>{s.user.name}</td>
+                    <td>{s.user.email}</td>
+                    <td>{s.user.phone}</td>
+                    <td>{s.className}</td>
+                    <td>{s.section}</td>
+                    <td>{s.rollNumber}</td>
                   </tr>
                 ))}
               </tbody>

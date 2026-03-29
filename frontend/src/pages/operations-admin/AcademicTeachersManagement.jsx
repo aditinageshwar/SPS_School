@@ -165,6 +165,7 @@ const TeachersAcademicManagement = () => {
                   <th>Specialization</th>
                   <th>Experience (Years)</th>
                   <th>Department</th>
+                  <th>Qualifications</th>
                   <th>Status</th>
                   <th>Actions</th>
                 </tr>
@@ -179,6 +180,7 @@ const TeachersAcademicManagement = () => {
                       <td>{teacher.specialization}</td>
                       <td>{teacher.experience}</td>
                       <td>{teacher.department || '-'}</td>
+                      <td>{teacher.qualifications || '-'}</td>
                       <td>
                         <span className={`badge ${teacher.status === 'active' ? 'approved' : 'pending'}`}>
                           {teacher.status}
