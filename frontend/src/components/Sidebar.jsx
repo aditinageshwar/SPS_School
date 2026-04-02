@@ -1,8 +1,8 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { 
-  FiHome, FiUsers, FiSettings, FiBookOpen, FiCalendar, FiFileText, 
-  FiUserPlus, FiDollarSign, FiCheckSquare, FiEdit3, FiMail 
+  FiHome, FiUsers, FiSettings, FiBookOpen, FiCalendar, FiFileText, FiUser,
+  FiUserPlus, FiDollarSign, FiCheckSquare, FiEdit3, FiMail, FiLock 
 } from 'react-icons/fi';
 
 const Sidebar = () => {
@@ -17,21 +17,27 @@ const Sidebar = () => {
       { path: '/manage/operations-admin', name: 'Operations Admin', icon: <FiSettings /> },
       { path: '/teachers', name: 'Manage Teachers', icon: <FiUserPlus /> },
       { path: '/students', name: 'Manage Students', icon: <FiUsers /> },
+      { path: '/forgot-password', name: 'Update Password', icon: <FiLock/>},
+      { path: '/update-username', name: 'Update Username', icon: <FiUser/>}
     ],
     'academic-admin': [
       { path: '/academic-admin', name: 'Dashboard', icon: <FiHome /> },
       { path: '/academic-admin/teachers', name: 'Teacher Management', icon: <FiUsers /> },
       { path: '/academic-admin/subjects', name: 'Subjects', icon: <FiBookOpen /> },
-      { path: '/academic-admin/classes', name: 'Classes Management', icon: <FiCalendar /> }
+      { path: '/academic-admin/classes', name: 'Classes Management', icon: <FiCalendar /> },
+      { path: '/forgot-password', name: 'Update Password', icon: <FiLock/>}
     ],
     'student-admin': [
       { path: '/student-admin', name: 'Dashboard', icon: <FiHome /> },
+      { path: '/forgot-password', name: 'Update Password', icon: <FiLock/>}
     ],
     'finance-admin': [
       { path: '/finance-admin', name: 'Finance Home', icon: <FiHome /> },
+      { path: '/forgot-password', name: 'Update Password', icon: <FiLock/>}
     ],
     'operations-admin': [
       { path: '/operations-admin', name: 'Operations Home', icon: <FiHome /> },
+      { path: '/forgot-password', name: 'Update Password', icon: <FiLock/>}
     ],
     'teacher': [
       { path: '/teacher', name: 'My Dashboard', icon: <FiHome /> },
@@ -39,12 +45,14 @@ const Sidebar = () => {
       { path: '/teacher/attendanceMark', name: 'Attendance Entry', icon: <FiCheckSquare /> },
       { path: '/teacher/assignments', name: 'Assignments', icon: <FiEdit3 /> },
       { path: '/teacher/application', name: 'Review Applications', icon: <FiFileText /> },
+      { path: '/forgot-password', name: 'Update Password', icon: <FiLock/>}
     ],
     'student': [
       { path: '/student', name: 'My Dashboard', icon: <FiHome /> },
       { path: '/student/profile', name: 'My Profile', icon: <FiUsers /> },
       { path: '/student/attendance', name: 'Attendance', icon: <FiCheckSquare /> },
-      { path: '/student/application', name: 'Application', icon: <FiMail /> }
+      { path: '/student/application', name: 'Application', icon: <FiMail /> },
+      { path: '/forgot-password', name: 'Update Password', icon: <FiLock/>}
     ]
   };
   const currentMenu = sidebarMenus[userRole] || [];

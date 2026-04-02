@@ -102,6 +102,7 @@ const Events = () => {
 
       {/* 🟣 TABLE */}
       <div className="card">
+        <div className="overflow-x-auto w-full">
         <h3>All Events</h3>
 
         <table className="data-table">
@@ -142,6 +143,7 @@ const Events = () => {
             ))}
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   );

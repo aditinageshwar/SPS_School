@@ -25,6 +25,7 @@ const TeacherManagement = () => {
         <div className="dashboard-container">
           <h2>👨‍🏫 View All Teachers </h2>
           <div className="card">
+            <div className="overflow-x-auto w-full">
             <table className="data-table">
               <thead>
                 <tr>
@@ -59,6 +60,7 @@ const TeacherManagement = () => {
                 )}
               </tbody>
             </table>
+            </div>
           </div>
         </div>
       </main>

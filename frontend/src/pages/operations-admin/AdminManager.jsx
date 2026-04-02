@@ -130,6 +130,7 @@ const AdminManager = () => {
           )}
 
           <div className="card">
+            <div className="overflow-x-auto w-full">
             <h3 className='ml-2'>All {role.replace('-', ' ')}</h3>
             <table className="data-table">
               <thead>
@@ -158,6 +159,7 @@ const AdminManager = () => {
                 ))}
               </tbody>
             </table>
+            </div>
             {admins.length === 0 && <p style={{ textAlign: 'center', padding: '20px', color: '#999' }}>No admins found.</p>}
           </div>
         </div>

@@ -28,7 +28,8 @@ const StudentManagement = () => {
 
         <div className="dashboard-container">
           <h2>🎓 View All Students </h2>
-          <div className="card">      
+          <div className="card">  
+            <div className="overflow-x-auto w-full">  
             <table className="data-table">
               <thead>
                 <tr>
@@ -54,6 +55,7 @@ const StudentManagement = () => {
                 ))}
               </tbody>
             </table>
+            </div>  
           </div>
         </div>
       </main>
