@@ -107,16 +107,6 @@ const Login = () => {
           <button type="submit" className="login-btn" disabled={loading}>
             {loading ? "Verifying..." : "Secure Login"}
           </button>
-
-          <div>
-           <button 
-  onClick={() => navigate('/forgot-password')}
-  className="text-indigo-600 hover:text-indigo-800 text-sm font-medium"
->
-  Forgot Password?
-</button>
-          </div>
-
         </form>
       </div>
     </div>
